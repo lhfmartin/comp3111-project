@@ -13,7 +13,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Tower Defence");
-        primaryStage.setScene(new Scene(root, 600, 480));
+        primaryStage.setScene(new Scene(root, 630, 520));
         primaryStage.show();
         MyController appController = (MyController)loader.getController();
         appController.createArena();
