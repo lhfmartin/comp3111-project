@@ -15,7 +15,7 @@ public class Main extends Application {
         primaryStage.setTitle("Tower Defence");
         primaryStage.setScene(new Scene(root, 630, 520));
         primaryStage.show();
-        MyController appController = (MyController)loader.getController();
+        Arena appController = loader.getController();
         appController.createArena();
     }
 
