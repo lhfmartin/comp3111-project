@@ -11,18 +11,20 @@ public abstract class Tower {
     private int x;
     private int y;
     private double attack;
+    private double upgradeCost;
 
     public Tower(String name, Image image) {
         this.name = name;
         this.image = image;
     }
 
-    public Tower(String name, Image image, double minRange, double maxRange, double buildCost, double attack, int x, int y) {
+    public Tower(String name, Image image, double minRange, double maxRange, double buildCost, double upgradeCost, double attack, int x, int y) {
         this.name = name;
         this.image = image;
         this.minRange = minRange;
         this.maxRange = maxRange;
         this.buildCost = buildCost;
+        this.upgradeCost = upgradeCost;
         this.attack = attack;
         this.x = x;
         this.y = y;
@@ -70,6 +72,10 @@ public abstract class Tower {
 
     public void setAttack(double attack) {
         this.attack = attack;
+    }
+
+    public double getUpgradeCost() {
+        return upgradeCost;
     }
 
     public String getInfo(){

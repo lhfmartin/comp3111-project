@@ -104,7 +104,7 @@ public class Arena {
                 paneArena.getChildren().addAll(newLabel);
             }
 
-        labelMoney.setText("Money: " + money);
+        updateMoneyLabel();
     }
 
     @FXML
@@ -152,7 +152,7 @@ public class Arena {
                     ((Label)event.getGestureTarget()).setGraphic(imageView);
                     towers.add(tower);
                     target.setText(tower.getName());
-                    labelMoney.setText("Money: " + money);
+                    updateMoneyLabel();
 
                     target.setOnMouseEntered((event1) -> {
                         Text towerInfo = new Text(tower.getInfo());
@@ -171,7 +171,8 @@ public class Arena {
                     });
 
                     target.setOnMouseClicked((event1) -> {
-                        if(paneArena.getChildren().remove(paneArena.lookup("#destroyUpgradeHbox" + x + "" + y))){
+                        if(paneArena.lookup("#destroyUpgradeHbox" + x + "" + y) != null){
+                            paneArena.lookup("#destroyUpgradeHbox" + x + "" + y).setVisible(!paneArena.lookup("#destroyUpgradeHbox" + x + "" + y).isVisible());
                             return;
                         }
                         Button destroyButton = new Button("Destroy");
@@ -200,22 +201,22 @@ public class Arena {
                         });
 
                         upgradeButton.setOnMouseClicked((event2) -> {
-
-
-                            target.setOnMouseEntered(null);
-                            target.setOnMouseExited(null);
-                            target.setOnMouseClicked(null);
+                            if(tower.getUpgradeCost() > money){
+                                System.out.println("not enough resource to upgrade " + tower.getName());
+                            } else {
+                                tower.upgrade();
+                                money -= tower.getUpgradeCost();
+                                updateMoneyLabel();
+                                System.out.println(tower.getName() + " is being upgraded");
+                            }
+                            hbox.setVisible(false);
                         });
-
                     });
-
-
                 }
             }
             success = true;
             event.setDropCompleted(success);
             event.consume();
-
         });
 
         //well, you can also write anonymous class or even lambda
@@ -253,6 +254,10 @@ public class Arena {
             System.out.println("Exit");
             event.consume();
         });
+    }
+
+    private void updateMoneyLabel(){
+        labelMoney.setText("Money: " + money);
     }
 
     public Tower createTower(String label){

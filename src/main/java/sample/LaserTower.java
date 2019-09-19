@@ -8,7 +8,7 @@ public class LaserTower extends Tower {
     }
 
     LaserTower(int x, int y){
-        super("Laser Tower", new Image("laserTower.png"), 0, 90, 90, 1, x, y);
+        super("Laser Tower", new Image("laserTower.png"), 0, 90, 90, 45, 1, x, y);
     }
 
     @Override
