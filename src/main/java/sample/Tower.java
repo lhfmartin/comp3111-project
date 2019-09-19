@@ -2,39 +2,38 @@ package sample;
 
 import javafx.scene.image.Image;
 
-public class Tower {
+public abstract class Tower {
     private String name;
     private Image image;
     private double minRange;
     private double maxRange;
-    private double cost;
+    private double buildCost;
     private int x;
     private int y;
     private double attack;
 
-    public Tower(String name, Image image, double minRange, double maxRange, double cost, double attack) {
+    public Tower(String name, Image image) {
+        this.name = name;
+        this.image = image;
+    }
+
+    public Tower(String name, Image image, double minRange, double maxRange, double buildCost, double attack, int x, int y) {
         this.name = name;
         this.image = image;
         this.minRange = minRange;
         this.maxRange = maxRange;
-        this.cost = cost;
+        this.buildCost = buildCost;
         this.attack = attack;
+        this.x = x;
+        this.y = y;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Image getImage() {
         return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
     }
 
     public double getMinRange() {
@@ -53,28 +52,16 @@ public class Tower {
         this.maxRange = maxRange;
     }
 
-    public double getCost() {
-        return cost;
-    }
-
-    public void setCost(double cost) {
-        this.cost = cost;
+    public double getBuildCost() {
+        return buildCost;
     }
 
     public int getX() {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public double getAttack() {
@@ -86,10 +73,12 @@ public class Tower {
     }
 
     public String getInfo(){
-        return "Name: " + this.name + "\n"
-                + "Min Range: " + this.minRange + "\n"
-                + "Max Range: " + this.maxRange + "\n"
-                + "Attack: " + this.attack + "\n"
-                + "Cost: " + this.cost;
+        return "Name: " + name + "\n"
+                + "Min Range: " + minRange + "\n"
+                + "Max Range: " + maxRange + "\n"
+                + "Attack: " + attack + "\n"
+                + "Cost: " + buildCost;
     }
+
+    public abstract boolean upgrade();
 }
