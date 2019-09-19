@@ -8,7 +8,7 @@ public class Catapult extends Tower {
     }
 
     Catapult(int x, int y){
-        super("Catapult", new Image("catapult.png"), 0, 15, 15, 1, x, y);
+        super("Catapult", new Image("catapult.png"), 0, 15, 15, 7.5, 1, x, y);
     }
 
     @Override
