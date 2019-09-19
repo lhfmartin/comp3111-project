@@ -141,13 +141,11 @@ public class Arena {
             boolean success = false;
             System.out.println(db.getString());
             if (db.hasString() && target.getText().isEmpty()) {
-                Tower tower = createTower(db.getString());
-                if(tower.getCost() > money){
+                Tower tower = createTower(db.getString(), x, y);
+                if(tower.getBuildCost() > money){
                     new Alert(Alert.AlertType.WARNING, "Not enough money to build " + tower.getName().toLowerCase() + "!", ButtonType.OK).show();
                 } else {
-                    money -= tower.getCost();
-                    tower.setX(x);
-                    tower.setY(y);
+                    money -= tower.getBuildCost();
                     ImageView imageView = new ImageView(tower.getImage());
                     imageView.setFitWidth(GRID_WIDTH * 0.9);
                     imageView.setFitHeight(GRID_HEIGHT * 0.9);
@@ -164,7 +162,7 @@ public class Arena {
                         vbox.setPadding(new Insets(4));
                         paneArena.getChildren().add(vbox);
                         paneArena.layout();
-                        vbox.setLayoutX(x * GRID_WIDTH + vbox.getWidth() >= ARENA_WIDTH ? x * GRID_WIDTH - vbox.getWidth() : (x + 1) * GRID_WIDTH);
+                        vbox.setLayoutX((x + 1) * GRID_WIDTH + vbox.getWidth() >= ARENA_WIDTH ? x * GRID_WIDTH - vbox.getWidth() : (x + 1) * GRID_WIDTH);
                         vbox.setLayoutY(y * GRID_HEIGHT + vbox.getHeight() >= ARENA_HEIGHT ? (y + 1) * GRID_WIDTH - vbox.getHeight() : y * GRID_HEIGHT);
                     });
 
@@ -267,6 +265,21 @@ public class Arena {
                 return new Catapult();
             case "Laser Tower":
                 return new LaserTower();
+            default:
+                return null;
+        }
+    }
+
+    public Tower createTower(String label, int x, int y){
+        switch (label){
+            case "Basic Tower":
+                return new BasicTower(x, y);
+            case "Ice Tower":
+                return new IceTower(x, y);
+            case "Catapult":
+                return new Catapult(x, y);
+            case "Laser Tower":
+                return new LaserTower(x, y);
             default:
                 return null;
         }
