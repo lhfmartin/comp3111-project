@@ -47,7 +47,16 @@ public class Arena {
 
     @FXML
     private Label labelMoney;
-
+    
+    @FXML
+    private Label labelFox;
+    
+    @FXML
+    private Label labelPenguin;  
+    
+    @FXML
+    private Label labelUnicorn;
+    
     private static final int ARENA_WIDTH = 480;
     private static final int ARENA_HEIGHT = 480;
     public static final int GRID_WIDTH = 40;
@@ -59,6 +68,7 @@ public class Arena {
     private int x = -1, y = 0; //where is my monster
     private double money = 100;
     private ArrayList<Tower> towers = new ArrayList();
+    private ArrayList<Monster> monsters = new ArrayList();
 
 
     /**
@@ -109,15 +119,35 @@ public class Arena {
 
     @FXML
     private void nextFrame() {
-        if (x == -1) {
-            grids[0][0].setText("M");
-            x = 0;
-            return;
+//        if (x == -1) {
+//            grids[0][0].setText("M");
+//            x = 0;
+//            return;
+//        }
+//        if (y == MAX_V_NUM_GRID - 1)
+//            return;
+//        grids[y++][x].setText("");
+//        grids[y][x].setText("M");
+    	for(int i=0;i<monsters.size();i++) {
+        	Monster a = monsters.get(i);
+        	if(!a.IsAlive()) {
+        		grids[a.getY()][a.getX()].setGraphic(null);
+        		monsters.remove(a);
+        	}
         }
-        if (y == MAX_V_NUM_GRID - 1)
-            return;
-        grids[y++][x].setText("");
-        grids[y][x].setText("M");
+    	Gameover();
+    	if((int)(Math.random()*2)%2==0)
+    		createMonster();
+        moveMonster();
+    	for(int i=0;i<monsters.size();i++) {
+        	Monster a = monsters.get(i);
+        	if(a.IsAlive()) {
+        		createMonsterIcon(a);
+        	}
+        	else {
+        		createCollisionIcon(a);
+        	}
+        }
     }
 
     /**
@@ -130,10 +160,13 @@ public class Arena {
         Label source2 = labelIceTower;
         Label source3 = labelCatapult;
         Label source4 = labelLaserTower;
+        
+        
         source1.setOnDragDetected(new DragEventHandler(source1));
         source2.setOnDragDetected(new DragEventHandler(source2));
         source3.setOnDragDetected(new DragEventHandler(source3));
         source4.setOnDragDetected(new DragEventHandler(source4));
+        
 
         target.setOnDragDropped((event) -> {
             System.out.println("xx");
@@ -255,6 +288,10 @@ public class Arena {
             event.consume();
         });
     }
+    
+    private void getMonsterInfo(int x, int y) {
+
+    }
 
     private void updateMoneyLabel(){
         labelMoney.setText("Money: " + money);
@@ -288,6 +325,91 @@ public class Arena {
             default:
                 return null;
         }
+    }
+    
+    
+    public void createMonster() {
+    	
+    	Monster monster =null;
+    	switch((int)(Math.random()*3)) {
+    	case 0:	
+    		monster = new Fox(10, 1);
+    		break;
+    	case 1:	
+    		monster = new Penguin(10, 1);
+    		break;
+    	case 2:	
+    		monster = new Unicorn(10, 2);
+    		break;
+       	default:
+    		return;
+    	}
+    	monsters.add(monster);
+    }
+    
+    public void moveMonster(){
+    	for(int i=0;i<monsters.size();i++) {
+        	Monster a = monsters.get(i);
+        	grids[a.getY()][a.getX()].setGraphic(null);
+        	if(a.IsAlive()) {
+        		int speed = a.getSpeed();
+        		while(speed>0) {
+        			speed -= 1;
+        			if(a.getX()%2==1) {
+        				a.setX(a.getX()+1);	
+        				continue;
+        			}
+        			if((a.getX())%4==0) {
+        				if(a.getY()== MAX_V_NUM_GRID-1) {
+        					a.setX(a.getX()+1);
+        					continue;
+        				}
+        				else {
+        					a.setY(a.getY()+1);
+        					continue;
+        				}
+        			}
+        			else {
+        				if(a.getY()==0) {
+        					a.setX(a.getX()+1);
+        					continue;
+        				}
+        				else {
+        					a.setY(a.getY()-1);
+        					continue;
+        				}
+        			}
+        		}
+        		
+        	}
+        	else {
+        		
+        	}
+    	}
+    }
+    
+    public void createMonsterIcon(Monster a ) {
+        ImageView imageView = new ImageView(a.getImage());
+        imageView.setFitWidth(GRID_WIDTH * 0.9);
+        imageView.setFitHeight(GRID_HEIGHT * 0.9);
+        grids[a.getY()][a.getX()].setGraphic(imageView);
+    }
+    
+    public void createCollisionIcon(Monster a ) {
+        ImageView imageView = new ImageView("collision.png");
+        imageView.setFitWidth(GRID_WIDTH * 0.9);
+        imageView.setFitHeight(GRID_HEIGHT * 0.9);
+        grids[a.getY()][a.getX()].setGraphic(imageView);
+    }
+    
+    public void Gameover() {
+    	for(int i=0;i<monsters.size();i++) {
+        	Monster a = monsters.get(i);
+        	if(a.IsAlive()&& a.getX()== 11 && a.getY()==0) {
+        		System.out.println("Gameover");
+        		System.exit(0);
+        	}
+    	}
     }
 
     class DragEventHandler implements EventHandler<MouseEvent> {
