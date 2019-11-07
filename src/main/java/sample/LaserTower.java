@@ -15,4 +15,9 @@ public class LaserTower extends Tower {
     public boolean upgrade() {
         return false;
     }
+    
+    @Override
+    public void attack() {
+    	
+    }
 }

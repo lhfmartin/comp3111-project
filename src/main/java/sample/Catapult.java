@@ -3,6 +3,9 @@ package sample;
 import javafx.scene.image.Image;
 
 public class Catapult extends Tower {
+	
+	private int restore_frame = 0;
+	
     Catapult(){
         super("Catapult", new Image("catapult.png"));
     }
@@ -14,5 +17,10 @@ public class Catapult extends Tower {
     @Override
     public boolean upgrade() {
         return false;
+    }
+    
+    @Override
+    public void attack() {
+    	
     }
 }
