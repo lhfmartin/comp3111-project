@@ -78,6 +78,6 @@ public abstract class Monster {
     }
     
     public String getInfo(){
-        return "HP: " + HP + "/" +maxHP + "\n";
+        return name+ "\n" +"HP: " + HP + "/" +maxHP + "\n";
     }
 }

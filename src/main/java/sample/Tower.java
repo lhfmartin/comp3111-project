@@ -17,6 +17,10 @@ public abstract class Tower {
         this.name = name;
         this.image = image;
     }
+   
+    public Tower(String name) {
+        this.name = name;
+    }
 
     public Tower(String name, Image image, double minRange, double maxRange, double buildCost, double upgradeCost, double attack, int x, int y) {
         this.name = name;
