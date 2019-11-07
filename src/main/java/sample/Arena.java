@@ -48,14 +48,7 @@ public class Arena {
     @FXML
     private Label labelMoney;
     
-    @FXML
-    private Label labelFox;
-    
-    @FXML
-    private Label labelPenguin;  
-    
-    @FXML
-    private Label labelUnicorn;
+    private int frame=0;
     
     private static final int ARENA_WIDTH = 480;
     private static final int ARENA_HEIGHT = 480;
@@ -100,6 +93,7 @@ public class Arena {
 
                 if (j % 2 == 0 || i == ((j + 1) / 2 % 2) * (MAX_V_NUM_GRID - 1)){
                     newLabel.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    getMonsterInfo(j, i);
                 } else{
                     newLabel.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
                     setDragAndDrop(j, i);
@@ -130,24 +124,38 @@ public class Arena {
 //        grids[y][x].setText("M");
     	for(int i=0;i<monsters.size();i++) {
         	Monster a = monsters.get(i);
-        	if(!a.IsAlive()) {
+        	if(!a.IsAlive()&&!Gameover()) {
         		grids[a.getY()][a.getX()].setGraphic(null);
         		monsters.remove(a);
         	}
         }
-    	Gameover();
-    	if((int)(Math.random()*2)%2==0)
-    		createMonster();
-        moveMonster();
-    	for(int i=0;i<monsters.size();i++) {
-        	Monster a = monsters.get(i);
-        	if(a.IsAlive()) {
-        		createMonsterIcon(a);
-        	}
-        	else {
-        		createCollisionIcon(a);
-        	}
-        }
+    	if(!Gameover()){
+    		moveMonster();
+    	}
+    	if(!Gameover()){
+	    	if(frame%2==0) {
+	    		for(int i =0; i<frame/10+1;i++)
+	    			createMonster();
+	    	}
+//	        if(monsters.size()>1) {
+//	        	Monster t = monsters.get(0);
+//	        	System.out.println(t.getX()+ " " + t.getY());
+//	        }
+
+	    	for(int i=0;i<monsters.size();i++) {
+	        	Monster a = monsters.get(i);
+	        	if(a.getX()<12&&a.getY()<12) {
+		        	if(a.IsAlive()) {
+		        		createMonsterIcon(a);
+						grids[a.getY()][a.getX()].setText(String.valueOf(i));
+		        	}
+		        	else {
+		        		createCollisionIcon(a);
+		        	}
+	        	}
+	        }
+    	}
+        frame ++;
     }
 
     /**
@@ -290,7 +298,24 @@ public class Arena {
     }
     
     private void getMonsterInfo(int x, int y) {
-
+    	Label target = grids[y][x];
+		//System.out.println("Enter1");
+    	target.setOnMouseEntered(event->{
+    		if(!target.getText().isEmpty()) {
+    			Monster a  = monsters.get(Integer.parseInt(target.getText()));
+    			Text monsterInfo = new Text(a.getInfo());
+                VBox vbox = new VBox(monsterInfo);
+                vbox.setId("monsterInformation");
+                vbox.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                vbox.setPadding(new Insets(4));
+                paneArena.getChildren().add(vbox);
+                paneArena.layout();
+                vbox.setLayoutX((x + 1) * GRID_WIDTH + vbox.getWidth() >= ARENA_WIDTH ? x * GRID_WIDTH - vbox.getWidth() : (x + 1) * GRID_WIDTH);
+                vbox.setLayoutY(y * GRID_HEIGHT + vbox.getHeight() >= ARENA_HEIGHT ? (y + 1) * GRID_WIDTH - vbox.getHeight() : y * GRID_HEIGHT);    		}
+    		});
+        target.setOnMouseExited((event1) -> {
+            paneArena.getChildren().remove(paneArena.lookup("#monsterInformation"));
+        });
     }
 
     private void updateMoneyLabel(){
@@ -333,13 +358,13 @@ public class Arena {
     	Monster monster =null;
     	switch((int)(Math.random()*3)) {
     	case 0:	
-    		monster = new Fox(10, 1);
+    		monster = new Fox(8+frame/10, 2);
     		break;
     	case 1:	
-    		monster = new Penguin(10, 1);
+    		monster = new Penguin(10+frame/10, 1);
     		break;
     	case 2:	
-    		monster = new Unicorn(10, 2);
+    		monster = new Unicorn(12+frame/10, 1);
     		break;
        	default:
     		return;
@@ -351,36 +376,65 @@ public class Arena {
     	for(int i=0;i<monsters.size();i++) {
         	Monster a = monsters.get(i);
         	grids[a.getY()][a.getX()].setGraphic(null);
+    		grids[a.getY()][a.getX()].setText("");
+        	if (a instanceof Penguin) {
+        		((Penguin) a).regenHP();
+        	}
         	if(a.IsAlive()) {
         		int speed = a.getSpeed();
         		while(speed>0) {
         			speed -= 1;
+        			int temp;
         			if(a.getX()%2==1) {
-        				a.setX(a.getX()+1);	
-        				continue;
-        			}
-        			if((a.getX())%4==0) {
-        				if(a.getY()== MAX_V_NUM_GRID-1) {
-        					a.setX(a.getX()+1);
-        					continue;
+        				temp = a.getX()+1;
+        				if(temp<12) {
+        					a.setX(temp);	
         				}
         				else {
-        					a.setY(a.getY()+1);
-        					continue;
+        					a.setX(11);	
+        				}
+        			}
+        			else if((a.getX())%4==0) {
+        				if(a.getY()== MAX_V_NUM_GRID-1) {
+            				temp = a.getX()+1;
+            				if(temp<12) {
+            					a.setX(temp);	
+            				}
+            				else {
+            					a.setX(11);	
+            				}
+        				}
+        				else {
+            				temp = a.getY()+1;
+            				if(temp<12) {
+            					a.setY(temp);	
+            				}
+            				else {
+            					a.setX(11);	
+            				}
         				}
         			}
         			else {
         				if(a.getY()==0) {
-        					a.setX(a.getX()+1);
-        					continue;
+            				temp = a.getX()+1;
+            				if(temp<12) {
+            					a.setX(temp);	
+            				}
+            				else {
+            					a.setX(11);	
+            				}
         				}
         				else {
-        					a.setY(a.getY()-1);
-        					continue;
+            				temp = a.getY()-1;
+            				if(temp<12) {
+            					a.setY(temp);	
+            				}
+            				else {
+            					a.setX(11);	
+            				}
         				}
         			}
         		}
-        		
         	}
         	else {
         		
@@ -402,14 +456,25 @@ public class Arena {
         grids[a.getY()][a.getX()].setGraphic(imageView);
     }
     
-    public void Gameover() {
+    public boolean Gameover() {
     	for(int i=0;i<monsters.size();i++) {
         	Monster a = monsters.get(i);
-        	if(a.IsAlive()&& a.getX()== 11 && a.getY()==0) {
+        	if(a.IsAlive()&& a.getX()>= 11 && a.getY()>=0) {
+        		Text GameoverInfo = new Text("Gamover");
+        		VBox vbox = new VBox(GameoverInfo);
+        		vbox.setId("GameoverInformation");
+        		vbox.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+        		vbox.setPadding(new Insets(7));
+        		paneArena.getChildren().add(vbox);
+        		paneArena.layout();
+        		vbox.setLayoutX(200);
+        		vbox.setLayoutY(200);
         		System.out.println("Gameover");
-        		System.exit(0);
+        		return true;
+        		//System.exit(0);
         	}
     	}
+    	return false;
     }
 
     class DragEventHandler implements EventHandler<MouseEvent> {
