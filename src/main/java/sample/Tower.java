@@ -87,4 +87,6 @@ public abstract class Tower {
     }
 
     public abstract boolean upgrade();
+    
+    public abstract void attack();
 }
