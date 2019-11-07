@@ -15,4 +15,9 @@ public class IceTower extends Tower {
     public boolean upgrade() {
         return false;
     }
+    
+    @Override
+    public void attack() {
+    	
+    }
 }
