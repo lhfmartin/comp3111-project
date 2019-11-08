@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.*;
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
@@ -47,7 +48,9 @@ public class Arena {
 
     @FXML
     private Label labelMoney;
-
+    
+    private int frame=0;
+    
     private static final int ARENA_WIDTH = 480;
     private static final int ARENA_HEIGHT = 480;
     public static final int GRID_WIDTH = 40;
@@ -57,8 +60,9 @@ public class Arena {
 
     private Label grids[][] = new Label[MAX_V_NUM_GRID][MAX_H_NUM_GRID]; //the grids on arena
     private int x = -1, y = 0; //where is my monster
-    private double money = 100;
-    private ArrayList<Tower> towers = new ArrayList();
+    private double money = 10000000;
+    private ArrayList<Tower> towers = new ArrayList<Tower>();
+    private ArrayList<Monster> monsters = new ArrayList<Monster>();
 
 
     /**
@@ -90,6 +94,7 @@ public class Arena {
 
                 if (j % 2 == 0 || i == ((j + 1) / 2 % 2) * (MAX_V_NUM_GRID - 1)){
                     newLabel.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    getMonsterInfo(j, i);
                 } else{
                     newLabel.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
                     setDragAndDrop(j, i);
@@ -109,15 +114,75 @@ public class Arena {
 
     @FXML
     private void nextFrame() {
-        if (x == -1) {
-            grids[0][0].setText("M");
-            x = 0;
-            return;
+//        if (x == -1) {
+//            grids[0][0].setText("M");
+//            x = 0;
+//            return;
+//        }
+//        if (y == MAX_V_NUM_GRID - 1)
+//            return;
+//        grids[y++][x].setText("");
+//        grids[y][x].setText("M");
+    	for(int i=0;i<monsters.size();i++) {
+        	Monster a = monsters.get(i);
+        	if(!a.IsAlive()&&!Gameover()) {
+        		grids[a.getY()][a.getX()].setGraphic(null);
+        		monsters.remove(a);
+        	}
         }
-        if (y == MAX_V_NUM_GRID - 1)
-            return;
-        grids[y++][x].setText("");
-        grids[y][x].setText("M");
+    	if(!Gameover()){
+    		moveMonster();
+	    	for (int i = 0 ; i < towers.size() ; i ++) { 
+	    		
+	    		if (towers.get(i) instanceof LaserTower) {
+	    			LaserTower lt = (LaserTower)towers.get(i);
+	    			if (lt.attack(monsters, paneArena) && money >= lt.getCost()) {
+	    				money -= lt.getCost();
+	    				updateMoneyLabel();
+	    			}
+	    		}else {
+	    			towers.get(i).attack(monsters, paneArena);
+	    		}
+	    	}
+
+    	}
+    	if(!Gameover()){
+	    	if(frame%2==0) {
+	    		for(int i =0; i<frame/10+1;i++)
+	    			if (monsters.size() <= 3)
+		    			createMonster();
+	    	}
+//	        if(monsters.size()>1) {
+//	        	Monster t = monsters.get(0);
+//	        	System.out.println(t.getX()+ " " + t.getY());
+//	        }
+
+	    	for(int i=0;i<monsters.size();i++) {
+	        	Monster a = monsters.get(i);
+	        	if(a.getX()<12&&a.getY()<12) {
+		        	if(a.IsAlive()) {
+		        		createMonsterIcon(a);
+						grids[a.getY()][a.getX()].setText(String.valueOf(i));
+		        	}
+		        	else {
+		        		createCollisionIcon(a);
+		        	}
+	        	}
+	        }
+//	    	for (int i = 0 ; i < towers.size() ; i ++) { 
+//	    		
+//	    		if (towers.get(i) instanceof LaserTower) {
+//	    			LaserTower lt = (LaserTower)towers.get(i);
+//	    			if (lt.attack(monsters, paneArena) && money >= lt.getCost()) {
+//	    				money -= lt.getCost();
+//	    				updateMoneyLabel();
+//	    			}
+//	    		}else {
+//	    			towers.get(i).attack(monsters, paneArena);
+//	    		}
+//	    	}
+    	}
+        frame ++;
     }
 
     /**
@@ -130,10 +195,13 @@ public class Arena {
         Label source2 = labelIceTower;
         Label source3 = labelCatapult;
         Label source4 = labelLaserTower;
+        
+        
         source1.setOnDragDetected(new DragEventHandler(source1));
         source2.setOnDragDetected(new DragEventHandler(source2));
         source3.setOnDragDetected(new DragEventHandler(source3));
         source4.setOnDragDetected(new DragEventHandler(source4));
+        
 
         target.setOnDragDropped((event) -> {
             System.out.println("xx");
@@ -255,6 +323,27 @@ public class Arena {
             event.consume();
         });
     }
+    
+    private void getMonsterInfo(int x, int y) {
+    	Label target = grids[y][x];
+		//System.out.println("Enter1");
+    	target.setOnMouseEntered(event->{
+    		if(!target.getText().isEmpty()) {
+    			Monster a  = monsters.get(Integer.parseInt(target.getText()));
+    			Text monsterInfo = new Text(a.getInfo());
+                VBox vbox = new VBox(monsterInfo);
+                vbox.setId("monsterInformation");
+                vbox.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                vbox.setPadding(new Insets(4));
+                paneArena.getChildren().add(vbox);
+                paneArena.layout();
+                vbox.setLayoutX((x + 1) * GRID_WIDTH + vbox.getWidth() >= ARENA_WIDTH ? x * GRID_WIDTH - vbox.getWidth() : (x + 1) * GRID_WIDTH);
+                vbox.setLayoutY(y * GRID_HEIGHT + vbox.getHeight() >= ARENA_HEIGHT ? (y + 1) * GRID_WIDTH - vbox.getHeight() : y * GRID_HEIGHT);    		}
+    		});
+        target.setOnMouseExited((event1) -> {
+            paneArena.getChildren().remove(paneArena.lookup("#monsterInformation"));
+        });
+    }
 
     private void updateMoneyLabel(){
         labelMoney.setText("Money: " + money);
@@ -288,6 +377,131 @@ public class Arena {
             default:
                 return null;
         }
+    }
+    
+    
+    public void createMonster() {
+    	
+    	Monster monster =null;
+    	switch((int)(Math.random()*3)) {
+    	case 0:	
+    		monster = new Fox(8+frame/10, 2);
+    		break;
+    	case 1:	
+    		monster = new Penguin(10+frame/10, 1);
+    		break;
+    	case 2:	
+    		monster = new Unicorn(12+frame/10, 1);
+    		break;
+       	default:
+    		return;
+    	}
+    	monsters.add(monster);
+    }
+    
+    public void moveMonster(){
+    	for(int i=0;i<monsters.size();i++) {
+        	Monster a = monsters.get(i);
+        	grids[a.getY()][a.getX()].setGraphic(null);
+    		grids[a.getY()][a.getX()].setText("");
+        	if (a instanceof Penguin) {
+        		((Penguin) a).regenHP();
+        	}
+        	if(a.IsAlive()) {
+        		int speed = a.getSpeed();
+        		while(speed>0) {
+        			speed -= 1;
+        			int temp;
+        			if(a.getX()%2==1) {
+        				temp = a.getX()+1;
+        				if(temp<12) {
+        					a.setX(temp);	
+        				}
+        				else {
+        					a.setX(11);	
+        				}
+        			}
+        			else if((a.getX())%4==0) {
+        				if(a.getY()== MAX_V_NUM_GRID-1) {
+            				temp = a.getX()+1;
+            				if(temp<12) {
+            					a.setX(temp);	
+            				}
+            				else {
+            					a.setX(11);	
+            				}
+        				}
+        				else {
+            				temp = a.getY()+1;
+            				if(temp<12) {
+            					a.setY(temp);	
+            				}
+            				else {
+            					a.setX(11);	
+            				}
+        				}
+        			}
+        			else {
+        				if(a.getY()==0) {
+            				temp = a.getX()+1;
+            				if(temp<12) {
+            					a.setX(temp);	
+            				}
+            				else {
+            					a.setX(11);	
+            				}
+        				}
+        				else {
+            				temp = a.getY()-1;
+            				if(temp<12) {
+            					a.setY(temp);	
+            				}
+            				else {
+            					a.setX(11);	
+            				}
+        				}
+        			}
+        		}
+        	}
+        	else {
+        		
+        	}
+    	}
+    }
+    
+    public void createMonsterIcon(Monster a ) {
+        ImageView imageView = new ImageView(a.getImage());
+        imageView.setFitWidth(GRID_WIDTH * 0.9);
+        imageView.setFitHeight(GRID_HEIGHT * 0.9);
+        grids[a.getY()][a.getX()].setGraphic(imageView);
+    }
+    
+    public void createCollisionIcon(Monster a ) {
+        ImageView imageView = new ImageView("collision.png");
+        imageView.setFitWidth(GRID_WIDTH * 0.9);
+        imageView.setFitHeight(GRID_HEIGHT * 0.9);
+        grids[a.getY()][a.getX()].setGraphic(imageView);
+    }
+    
+    public boolean Gameover() {
+    	for(int i=0;i<monsters.size();i++) {
+        	Monster a = monsters.get(i);
+        	if(a.IsAlive()&& a.getX()>= 11 && a.getY()>=0) {
+        		Text GameoverInfo = new Text("Gamover");
+        		VBox vbox = new VBox(GameoverInfo);
+        		vbox.setId("GameoverInformation");
+        		vbox.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+        		vbox.setPadding(new Insets(7));
+        		paneArena.getChildren().add(vbox);
+        		paneArena.layout();
+        		vbox.setLayoutX(200);
+        		vbox.setLayoutY(200);
+        		System.out.println("Gameover");
+        		return true;
+        		//System.exit(0);
+        	}
+    	}
+    	return false;
     }
 
     class DragEventHandler implements EventHandler<MouseEvent> {
