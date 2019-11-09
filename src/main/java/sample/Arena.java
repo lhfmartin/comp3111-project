@@ -128,8 +128,11 @@ public class Arena {
         	if(!a.IsAlive()&&!Gameover()) {
         		grids[a.getY()][a.getX()].setGraphic(null);
         		monsters.remove(a);
+        		money += 10;
+				updateMoneyLabel();
         	}
         }
+
     	if(!Gameover()){
     		moveMonster();
 	    	for (int i = 0 ; i < towers.size() ; i ++) { 
@@ -144,12 +147,10 @@ public class Arena {
 	    			towers.get(i).attack(monsters, paneArena);
 	    		}
 	    	}
-
     	}
     	if(!Gameover()){
 	    	if(frame%2==0) {
 	    		for(int i =0; i<frame/10+1;i++)
-	    			if (monsters.size() <= 3)
 		    			createMonster();
 	    	}
 //	        if(monsters.size()>1) {
@@ -169,18 +170,7 @@ public class Arena {
 		        	}
 	        	}
 	        }
-//	    	for (int i = 0 ; i < towers.size() ; i ++) { 
-//	    		
-//	    		if (towers.get(i) instanceof LaserTower) {
-//	    			LaserTower lt = (LaserTower)towers.get(i);
-//	    			if (lt.attack(monsters, paneArena) && money >= lt.getCost()) {
-//	    				money -= lt.getCost();
-//	    				updateMoneyLabel();
-//	    			}
-//	    		}else {
-//	    			towers.get(i).attack(monsters, paneArena);
-//	    		}
-//	    	}
+	    	
     	}
         frame ++;
     }
