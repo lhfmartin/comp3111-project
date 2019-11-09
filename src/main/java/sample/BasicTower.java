@@ -58,7 +58,7 @@ public class BasicTower extends Tower {
 
     	}
     	
-    	HashMap<Integer, Double> ending = new HashMap<Integer, Double>();
+    	LinkedHashMap<Integer, Double> ending = new LinkedHashMap<Integer, Double>();
     	for (int i = 0 ; i < index.size(); i ++) {
     		ArrayList<Integer> monster_pixel = getpixel(monsters.get(index.get(i)).getX(), monsters.get(index.get(i)).getY());
     		double a = Math.pow((monster_pixel.get(0)-440),2);
