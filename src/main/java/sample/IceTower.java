@@ -121,7 +121,7 @@ public class IceTower extends Tower {
 
     	if (slowdown.containsKey(prey)) {
     		ArrayList<Integer> remain = slowdown.get(prey);
-    		remain.set(0, remain.get(0)+1);
+    		remain.set(0, remain.get(0)+slowdown_period);
 	    	prey.setSpeed(Math.max(0, prey.getSpeed()-slowdown_speed));
 	    	prey.setHP((int)Math.max(prey.getHP()- getAttack(),0));
     	}
