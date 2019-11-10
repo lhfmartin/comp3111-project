@@ -63,6 +63,7 @@ public class Arena {
     private double money = 10000000;
     private ArrayList<Tower> towers = new ArrayList<Tower>();
     private ArrayList<Monster> monsters = new ArrayList<Monster>();
+    static Monster sequence[][];
 
 
     /**
@@ -390,6 +391,7 @@ public class Arena {
     }
     
     public void moveMonster(){
+    	sequence = new Monster[MAX_V_NUM_GRID][MAX_H_NUM_GRID];
     	for(int i=0;i<monsters.size();i++) {
         	Monster a = monsters.get(i);
         	grids[a.getY()][a.getX()].setGraphic(null);
@@ -452,6 +454,10 @@ public class Arena {
         				}
         			}
         		}
+            	if (sequence[a.getY()][a.getX()] == null) {
+            		sequence[a.getY()][a.getX()] = a;
+//            		System.out.println(a.getName() + " Change");
+            	}
         	}
         	else {
         		

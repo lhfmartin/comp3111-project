@@ -35,15 +35,15 @@ public class BasicTower extends Tower {
     	
     	ArrayList<Double> distance = new ArrayList<Double>();
     	ArrayList<Integer> tower_pixel = getpixel(getX(), getY());
-    	System.out.println("x: " + tower_pixel.get(0));
-    	System.out.println("y: " + tower_pixel.get(1));
+//    	System.out.println("x: " + tower_pixel.get(0));
+//    	System.out.println("y: " + tower_pixel.get(1));
     	for (int i = 0 ; i < monsters.size(); i ++) {
     		ArrayList<Integer> monster_pixel = getpixel(monsters.get(i).getX(), monsters.get(i).getY());
-    		System.out.println("monster x: " + monster_pixel.get(0) +  "monster y: " + monster_pixel.get(1));
+//    		System.out.println("monster x: " + monster_pixel.get(0) +  "monster y: " + monster_pixel.get(1));
     		double a = Math.pow((monster_pixel.get(0)-tower_pixel.get(0)),2);
     		double b = Math.pow((monster_pixel.get(1)-tower_pixel.get(1)),2);
     		double temp_distance = Math.sqrt(a+b);
-    		System.out.println(monsters.get(i).getName()  + " is tower distance " + temp_distance);
+//    		System.out.println(monsters.get(i).getName()  + " is tower distance " + temp_distance);
     		distance.add(temp_distance);
     	}
     	
@@ -51,8 +51,10 @@ public class BasicTower extends Tower {
     	for (int i = 0 ; i < distance.size(); i++) {
     		if (distance.get(i) >= 0) {
     			if (distance.get(i) <= 65){
-					index.add(i);
-					System.out.println(monsters.get(i).getName() + " within the range [0,65]");
+//    				System.out.println(Arena.sequence[monsters.get(i).getY()][monsters.get(i).getX()]);
+    				if (Arena.sequence[monsters.get(i).getY()][monsters.get(i).getX()] == monsters.get(i))
+    					index.add(i);
+//					System.out.println(monsters.get(i).getName() + " within the range [0,65]");
     			}
     		}
 
@@ -80,7 +82,7 @@ public class BasicTower extends Tower {
     	
 		Monster prey = monsters.get(min_index);
     	prey.setHP(((int)Math.max((Math.round(prey.getHP() - this.getAttack())), 0)));
-    	System.out.println(prey.getName() + " is attacked" + " at x: " + prey.getX() + " y:" + prey.getY());
+//    	System.out.println(prey.getName() + " is attacked" + " at x: " + prey.getX() + " y:" + prey.getY());
     	Line new_line = new Line();
 		ArrayList<Integer> monster_pixel = getpixel(monsters.get(min_index).getX(), monsters.get(min_index).getY());
     	new_line.setStartX(monster_pixel.get(0));

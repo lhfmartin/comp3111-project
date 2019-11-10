@@ -24,7 +24,7 @@ public class IceTower extends Tower {
     }
 
     IceTower(int x, int y){
-        super("Ice Tower", new Image("iceTower.png"), 0, 65, 15, 30, 0, x, y);
+        super("Ice Tower", new Image("iceTower.png"), 0, 65, 15, 30, 1, x, y);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class IceTower extends Tower {
     	if (line != null) paneArena.getChildren().remove(line);
 
     	if (!slowdown.keySet().isEmpty()) {
-			System.out.println(slowdown);
+//			System.out.println(slowdown);
 
     		for (Entry<Monster, ArrayList<Integer>> entry : slowdown.entrySet()) {
     		    ArrayList<Integer> value = entry.getValue();
@@ -48,17 +48,17 @@ public class IceTower extends Tower {
     		ArrayList<Monster> penalty_end = new ArrayList<Monster>();
     		for (Entry<Monster, ArrayList<Integer>> entry : slowdown.entrySet()) {
     		    Monster key = entry.getKey();
-    		    System.out.println(key.getName() + " speed is " + key.getSpeed());
+//    		    System.out.println(key.getName() + " speed is " + key.getSpeed());
     		    ArrayList<Integer> value = entry.getValue();
     		    if (value.get(0).equals(0)) {
     		    	key.setSpeed(value.get(1));
     		    	penalty_end.add(key);
-    		    	System.out.println("Release " + key.getName() + " restore speed: " + key.getSpeed());
+//    		    	System.out.println("Release " + key.getName() + " restore speed: " + key.getSpeed());
     		    } 
     		}
     		for (int i = 0 ; i < penalty_end.size() ; i++) {
     			slowdown.remove(penalty_end.get(i));
-    			System.out.println(slowdown);
+//    			System.out.println(slowdown);
     		}
     		
     	}
@@ -77,8 +77,9 @@ public class IceTower extends Tower {
     	for (int i = 0 ; i < distance.size(); i++) {
     		if (distance.get(i) >= 0) {
     			if (distance.get(i) <= 65){
-					index.add(i);
-					System.out.println(monsters.get(i).getName() + " within the range [0,65]");
+    				if (Arena.sequence[monsters.get(i).getY()][monsters.get(i).getX()] == monsters.get(i))
+    					index.add(i);
+//					System.out.println(monsters.get(i).getName() + " within the range [0,65]");
     			}
     		}
 
@@ -105,7 +106,7 @@ public class IceTower extends Tower {
     	int min_index = min.getKey(); 
     	
     	Monster prey = monsters.get(min_index);
-    	System.out.println(prey.getName() + " is attacked" + " at x: " + prey.getX() + " y:" + prey.getY() + " by Ice tower");
+//    	System.out.println(prey.getName() + " is attacked" + " at x: " + prey.getX() + " y:" + prey.getY() + " by Ice tower");
     	ArrayList<Integer> target = new ArrayList<Integer>();
     	Line new_line = new Line();
 		ArrayList<Integer> monster_pixel = getpixel(prey.getX(), prey.getY());
@@ -119,7 +120,10 @@ public class IceTower extends Tower {
     	paneArena.getChildren().addAll(line);
 
     	if (slowdown.containsKey(prey)) {
+    		ArrayList<Integer> remain = slowdown.get(prey);
+    		remain.set(0, remain.get(0)+1);
 	    	prey.setSpeed(Math.max(0, prey.getSpeed()-slowdown_speed));
+	    	prey.setHP((int)Math.max(prey.getHP()- getAttack(),0));
     	}
     	else {
 	    	target.add(slowdown_period);
