@@ -56,8 +56,9 @@ public class Catapult extends Tower {
 	    	for (int i = 0 ; i < distance.size(); i++) {
 	    		if (distance.get(i) > 50) {
 	    			if (distance.get(i) < 150){
-						index.add(i);
-						System.out.println(monsters.get(i).getName() + " within the range [50,150]");
+	    				if (Arena.sequence[monsters.get(i).getY()][monsters.get(i).getX()] == monsters.get(i))
+	    					index.add(i);
+//						System.out.println(monsters.get(i).getName() + " within the range [50,150]");
 	    			}
 	    		}
 
@@ -111,7 +112,7 @@ public class Catapult extends Tower {
     			}
 			}
 
-	    	System.out.println();	    	
+//	    	System.out.println();	    	
 	    	restore_time = rest_time;
 	    	return true;
     	}

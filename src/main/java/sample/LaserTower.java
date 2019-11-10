@@ -61,7 +61,7 @@ public class LaserTower extends Tower {
     	border.add(new Point2D(((min_y-c)/slope), min_y));
     	
     	ArrayList<Point2D> removed_negative = new ArrayList<Point2D>();
-    	System.out.println("Before remove: " + border);
+//    	System.out.println("Before remove: " + border);
     	for (int i = 0 ; i < border.size() ; i++) {
     		if (border.get(i).getX() >= 0 && border.get(i).getY() >= 0 && border.get(i).getX() <= 480 && border.get(i).getY() <= 480)
     			removed_negative.add(border.get(i));
@@ -73,7 +73,7 @@ public class LaserTower extends Tower {
     		border.add(new Point2D(monster.get(0), min_y));
     	}
     	
-    	System.out.println(border);
+//    	System.out.println(border);
     	for (int i = 0 ; i < border.size() ; i ++) {
     		Line temp = new Line();
     		temp.setStartX(monster.get(0));
@@ -100,8 +100,8 @@ public class LaserTower extends Tower {
     	
     	ArrayList<Double> distance = new ArrayList<Double>();
     	ArrayList<Integer> tower_pixel = getpixel(getX(), getY());
-    	System.out.println("x: " + tower_pixel.get(0));
-    	System.out.println("y: " + tower_pixel.get(1));
+//    	System.out.println("x: " + tower_pixel.get(0));
+//    	System.out.println("y: " + tower_pixel.get(1));
     	for (int i = 0 ; i < monsters.size(); i ++) {
     		ArrayList<Integer> monster_pixel = getpixel(monsters.get(i).getX(), monsters.get(i).getY());
      		double a = Math.pow((monster_pixel.get(0)-tower_pixel.get(0)),2);
@@ -115,8 +115,9 @@ public class LaserTower extends Tower {
     	for (int i = 0 ; i < distance.size(); i++) {
     		if (distance.get(i) >= 0) {
     			if (distance.get(i) <= 65){
-					index.add(i);
-					System.out.println(monsters.get(i).getName() + " within the range [0,65]");
+    				if (Arena.sequence[monsters.get(i).getY()][monsters.get(i).getX()] == monsters.get(i))
+    					index.add(i);
+//					System.out.println(monsters.get(i).getName() + " within the range [0,65]");
     			}
     		}
 
@@ -179,7 +180,7 @@ public class LaserTower extends Tower {
 			ArrayList<Integer> p = getpixel(monsters.get(i).getX(), monsters.get(i).getY());
 			Point2D cur = new Point2D(p.get(0),p.get(1));
 			if (fullline.contains(p.get(0), p.get(1))) {
-				System.out.println(monsters.get(i).getName() + " is attacked by laser");
+//				System.out.println(monsters.get(i).getName() + " is attacked by laser");
 				if (!hurt_mon.contains(monsters.get(i))) 
 					hurt_mon.add(monsters.get(i));
 			}
