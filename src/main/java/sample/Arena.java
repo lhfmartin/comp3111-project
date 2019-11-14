@@ -48,9 +48,9 @@ public class Arena {
 
     @FXML
     private Label labelMoney;
-    
+
     private int frame=0;
-    
+
     private static final int ARENA_WIDTH = 480;
     private static final int ARENA_HEIGHT = 480;
     public static final int GRID_WIDTH = 40;
@@ -149,7 +149,7 @@ public class Arena {
 //	        	System.out.println(t.getX()+ " " + t.getY());
 //	        }
 	    	if (!Gameover()) {
-		    	for (int i = 0 ; i < towers.size() ; i ++) { 
+		    	for (int i = 0 ; i < towers.size() ; i ++) {
 		    		ArrayList<Monster> attacked;
 		    		if (towers.get(i) instanceof LaserTower) {
 		    			LaserTower lt = (LaserTower)towers.get(i);
@@ -165,7 +165,7 @@ public class Arena {
 		    			System.out.println(String.format("<%s>@(<%d>.<%d>) -> <%s>@(<%d>, <%d>)", towers.get(i).getName(), towers.get(i).getX(), towers.get(i).getY(), m.getName(), m.getX(), m.getY()));
 		    		}
 		    	}
-	
+
 		    	for(int i=0;i<monsters.size();i++) {
 		        	Monster a = monsters.get(i);
 		        	if(a.getX()<12&&a.getY()<12) {
@@ -179,7 +179,7 @@ public class Arena {
 		        	}
 		        }
 	    	}
-	    	
+
     	}
         frame ++;
     }
@@ -194,13 +194,13 @@ public class Arena {
         Label source2 = labelIceTower;
         Label source3 = labelCatapult;
         Label source4 = labelLaserTower;
-        
-        
+
+
         source1.setOnDragDetected(new DragEventHandler(source1));
         source2.setOnDragDetected(new DragEventHandler(source2));
         source3.setOnDragDetected(new DragEventHandler(source3));
         source4.setOnDragDetected(new DragEventHandler(source4));
-        
+
 
         target.setOnDragDropped((event) -> {
             System.out.println("xx");
@@ -322,7 +322,7 @@ public class Arena {
             event.consume();
         });
     }
-    
+
     private void getMonsterInfo(int x, int y) {
     	Label target = grids[y][x];
 		//System.out.println("Enter1");
@@ -377,19 +377,19 @@ public class Arena {
                 return null;
         }
     }
-    
-    
+
+
     public Monster createMonster() {
-    	
+
     	Monster monster =null;
     	switch((int)(Math.random()*3)) {
-    	case 0:	
+    	case 0:
     		monster = new Fox(8+frame/10, 2);
     		break;
-    	case 1:	
+    	case 1:
     		monster = new Penguin(10+frame/10, 1);
     		break;
-    	case 2:	
+    	case 2:
     		monster = new Unicorn(12+frame/10, 1);
     		break;
        	default:
@@ -398,7 +398,7 @@ public class Arena {
     	monsters.add(monster);
     	return monster;
     }
-    
+
     public void moveMonster(){
     	sequence = new Monster[MAX_V_NUM_GRID][MAX_H_NUM_GRID];
     	for(int i=0;i<monsters.size();i++) {
@@ -416,29 +416,29 @@ public class Arena {
         			if(a.getX()%2==1) {
         				temp = a.getX()+1;
         				if(temp<12) {
-        					a.setX(temp);	
+        					a.setX(temp);
         				}
         				else {
-        					a.setX(11);	
+        					a.setX(11);
         				}
         			}
         			else if((a.getX())%4==0) {
         				if(a.getY()== MAX_V_NUM_GRID-1) {
             				temp = a.getX()+1;
             				if(temp<12) {
-            					a.setX(temp);	
+            					a.setX(temp);
             				}
             				else {
-            					a.setX(11);	
+            					a.setX(11);
             				}
         				}
         				else {
             				temp = a.getY()+1;
             				if(temp<12) {
-            					a.setY(temp);	
+            					a.setY(temp);
             				}
             				else {
-            					a.setX(11);	
+            					a.setX(11);
             				}
         				}
         			}
@@ -446,19 +446,19 @@ public class Arena {
         				if(a.getY()==0) {
             				temp = a.getX()+1;
             				if(temp<12) {
-            					a.setX(temp);	
+            					a.setX(temp);
             				}
             				else {
-            					a.setX(11);	
+            					a.setX(11);
             				}
         				}
         				else {
             				temp = a.getY()-1;
             				if(temp<12) {
-            					a.setY(temp);	
+            					a.setY(temp);
             				}
             				else {
-            					a.setX(11);	
+            					a.setX(11);
             				}
         				}
         			}
@@ -469,25 +469,25 @@ public class Arena {
             	}
         	}
         	else {
-        		
+
         	}
     	}
     }
-    
+
     public void createMonsterIcon(Monster a ) {
         ImageView imageView = new ImageView(a.getImage());
         imageView.setFitWidth(GRID_WIDTH * 0.9);
         imageView.setFitHeight(GRID_HEIGHT * 0.9);
         grids[a.getY()][a.getX()].setGraphic(imageView);
     }
-    
+
     public void createCollisionIcon(Monster a ) {
         ImageView imageView = new ImageView("collision.png");
         imageView.setFitWidth(GRID_WIDTH * 0.9);
         imageView.setFitHeight(GRID_HEIGHT * 0.9);
         grids[a.getY()][a.getX()].setGraphic(imageView);
     }
-    
+
     public boolean Gameover() {
     	for(int i=0;i<monsters.size();i++) {
         	Monster a = monsters.get(i);
@@ -502,9 +502,9 @@ public class Arena {
         		vbox.setLayoutX(200);
         		vbox.setLayoutY(200);
         		System.out.println("Gameover");
-		    	for (int j = 0 ; j < towers.size() ; j ++) 
+		    	for (int j = 0 ; j < towers.size() ; j ++)
 		    		towers.get(j).isgameover(paneArena);
-		    	
+
         		return true;
         		//System.exit(0);
         	}
