@@ -148,35 +148,37 @@ public class Arena {
 //	        	Monster t = monsters.get(0);
 //	        	System.out.println(t.getX()+ " " + t.getY());
 //	        }
-	    	for (int i = 0 ; i < towers.size() ; i ++) { 
-	    		ArrayList<Monster> attacked;
-	    		if (towers.get(i) instanceof LaserTower) {
-	    			LaserTower lt = (LaserTower)towers.get(i);
-	    			attacked = lt.attack(monsters, paneArena);
-	    			if (attacked.size() != 0  && money >= lt.getCost()) {
-	    				money -= lt.getCost();
-	    				updateMoneyLabel();
-	    			}
-	    		}else {
-	    			attacked = towers.get(i).attack(monsters, paneArena);
-	    		}
-	    		for (Monster m : attacked) {
-	    			System.out.println(String.format("<%s>@(<%d>.<%d>) -> <%s>@(<%d>, <%d>)", towers.get(i).getName(), towers.get(i).getX(), towers.get(i).getY(), m.getName(), m.getX(), m.getY()));
-	    		}
+	    	if (!Gameover()) {
+		    	for (int i = 0 ; i < towers.size() ; i ++) { 
+		    		ArrayList<Monster> attacked;
+		    		if (towers.get(i) instanceof LaserTower) {
+		    			LaserTower lt = (LaserTower)towers.get(i);
+		    			attacked = lt.attack(monsters, paneArena);
+		    			if (attacked.size() != 0  && money >= lt.getCost()) {
+		    				money -= lt.getCost();
+		    				updateMoneyLabel();
+		    			}
+		    		}else {
+		    			attacked = towers.get(i).attack(monsters, paneArena);
+		    		}
+		    		for (Monster m : attacked) {
+		    			System.out.println(String.format("<%s>@(<%d>.<%d>) -> <%s>@(<%d>, <%d>)", towers.get(i).getName(), towers.get(i).getX(), towers.get(i).getY(), m.getName(), m.getX(), m.getY()));
+		    		}
+		    	}
+	
+		    	for(int i=0;i<monsters.size();i++) {
+		        	Monster a = monsters.get(i);
+		        	if(a.getX()<12&&a.getY()<12) {
+			        	if(a.IsAlive()) {
+			        		createMonsterIcon(a);
+							grids[a.getY()][a.getX()].setText(String.valueOf(i));
+			        	}
+			        	else {
+			        		createCollisionIcon(a);
+			        	}
+		        	}
+		        }
 	    	}
-
-	    	for(int i=0;i<monsters.size();i++) {
-	        	Monster a = monsters.get(i);
-	        	if(a.getX()<12&&a.getY()<12) {
-		        	if(a.IsAlive()) {
-		        		createMonsterIcon(a);
-						grids[a.getY()][a.getX()].setText(String.valueOf(i));
-		        	}
-		        	else {
-		        		createCollisionIcon(a);
-		        	}
-	        	}
-	        }
 	    	
     	}
         frame ++;
@@ -500,6 +502,9 @@ public class Arena {
         		vbox.setLayoutX(200);
         		vbox.setLayoutY(200);
         		System.out.println("Gameover");
+		    	for (int j = 0 ; j < towers.size() ; j ++) 
+		    		towers.get(j).isgameover(paneArena);
+		    	
         		return true;
         		//System.exit(0);
         	}

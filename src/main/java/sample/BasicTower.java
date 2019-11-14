@@ -97,4 +97,9 @@ public class BasicTower extends Tower {
     	return attacked;
     	  	    	
     }
+    
+    @Override
+    public void isgameover(AnchorPane paneArena) {
+    	if (line != null) paneArena.getChildren().remove(line);
+    }
 }

@@ -147,4 +147,10 @@ public class IceTower extends Tower {
                 + "Cost: " + getBuildCost() + "\n"
                 + "Freeze Time: " + slowdown_period;
     }
+    
+    @Override
+    public void isgameover(AnchorPane paneArena) {
+    	if (line != null) paneArena.getChildren().remove(line);
+    }
+    
 }
