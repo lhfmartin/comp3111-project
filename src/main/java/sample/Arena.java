@@ -136,28 +136,34 @@ public class Arena {
 
     	if(!Gameover()){
     		moveMonster();
-	    	for (int i = 0 ; i < towers.size() ; i ++) { 
-	    		
-	    		if (towers.get(i) instanceof LaserTower) {
-	    			LaserTower lt = (LaserTower)towers.get(i);
-	    			if (lt.attack(monsters, paneArena) && money >= lt.getCost()) {
-	    				money -= lt.getCost();
-	    				updateMoneyLabel();
-	    			}
-	    		}else {
-	    			towers.get(i).attack(monsters, paneArena);
-	    		}
-	    	}
     	}
     	if(!Gameover()){
 	    	if(frame%2==0) {
-	    		for(int i =0; i<frame/10+1;i++)
-		    			createMonster();
+	    		for(int i =0; i<frame/10+1;i++) {
+		    			Monster m = createMonster();
+		    			if (i == 0) sequence[m.getY()][m.getX()] = m;
+	    		}
 	    	}
 //	        if(monsters.size()>1) {
 //	        	Monster t = monsters.get(0);
 //	        	System.out.println(t.getX()+ " " + t.getY());
 //	        }
+	    	for (int i = 0 ; i < towers.size() ; i ++) { 
+	    		ArrayList<Monster> attacked;
+	    		if (towers.get(i) instanceof LaserTower) {
+	    			LaserTower lt = (LaserTower)towers.get(i);
+	    			attacked = lt.attack(monsters, paneArena);
+	    			if (attacked.size() != 0  && money >= lt.getCost()) {
+	    				money -= lt.getCost();
+	    				updateMoneyLabel();
+	    			}
+	    		}else {
+	    			attacked = towers.get(i).attack(monsters, paneArena);
+	    		}
+	    		for (Monster m : attacked) {
+	    			System.out.println(String.format("<%s>@(<%d>.<%d>) -> <%s>@(<%d>, <%d>)", towers.get(i).getName(), towers.get(i).getX(), towers.get(i).getY(), m.getName(), m.getX(), m.getY()));
+	    		}
+	    	}
 
 	    	for(int i=0;i<monsters.size();i++) {
 	        	Monster a = monsters.get(i);
@@ -371,7 +377,7 @@ public class Arena {
     }
     
     
-    public void createMonster() {
+    public Monster createMonster() {
     	
     	Monster monster =null;
     	switch((int)(Math.random()*3)) {
@@ -385,9 +391,10 @@ public class Arena {
     		monster = new Unicorn(12+frame/10, 1);
     		break;
        	default:
-    		return;
+    		return null;
     	}
     	monsters.add(monster);
+    	return monster;
     }
     
     public void moveMonster(){
