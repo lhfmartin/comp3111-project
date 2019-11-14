@@ -134,4 +134,13 @@ public class Catapult extends Tower {
                 
         
     }
+    
+    @Override
+    public void isgameover(AnchorPane paneArena) {
+		if (this.circle_b4 != null && this.circle_surrounding!= null) {
+			paneArena.getChildren().remove(circle_b4);
+			paneArena.getChildren().remove(circle_surrounding);
+		}
+    }
+    
 }
