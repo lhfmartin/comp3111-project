@@ -28,7 +28,8 @@ public class BasicTower extends Tower {
     }
     
     @Override
-    public boolean attack(ArrayList<Monster> monsters, AnchorPane paneArena) {
+    public ArrayList<Monster> attack(ArrayList<Monster> monsters, AnchorPane paneArena) {
+    	ArrayList<Monster> attacked = new ArrayList<Monster>();
     	
     	if (line != null) paneArena.getChildren().remove(line);
 
@@ -76,11 +77,12 @@ public class BasicTower extends Tower {
     	    }
     	}
     	
-    	if (min == null) return false;
+    	if (min == null) return attacked;
 
     	int min_index = min.getKey(); 
     	
 		Monster prey = monsters.get(min_index);
+		attacked.add(prey);
     	prey.setHP(((int)Math.max((Math.round(prey.getHP() - this.getAttack())), 0)));
 //    	System.out.println(prey.getName() + " is attacked" + " at x: " + prey.getX() + " y:" + prey.getY());
     	Line new_line = new Line();
@@ -92,7 +94,7 @@ public class BasicTower extends Tower {
 		new_line.setStyle("-fx-stroke: black;");
 		line = new_line;
     	paneArena.getChildren().addAll(line);
-    	return true;
+    	return attacked;
     	  	    	
     }
 }

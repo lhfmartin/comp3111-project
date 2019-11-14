@@ -91,7 +91,8 @@ public class LaserTower extends Tower {
     }
     
     @Override
-    public boolean attack(ArrayList<Monster> monsters, AnchorPane paneArena){
+    public ArrayList<Monster> attack(ArrayList<Monster> monsters, AnchorPane paneArena){
+    	ArrayList<Monster> attacked = new ArrayList<Monster>();
     	
     	if (line != null && line2 != null) {
     		paneArena.getChildren().remove(line);
@@ -114,11 +115,8 @@ public class LaserTower extends Tower {
     	ArrayList<Integer> index = new ArrayList<Integer>();
     	for (int i = 0 ; i < distance.size(); i++) {
     		if (distance.get(i) >= 0) {
-    			if (distance.get(i) <= 65){
-    				if (Arena.sequence[monsters.get(i).getY()][monsters.get(i).getX()] == monsters.get(i))
+    			if (distance.get(i) <= 65)
     					index.add(i);
-//					System.out.println(monsters.get(i).getName() + " within the range [0,65]");
-    			}
     		}
 
     	}
@@ -139,7 +137,7 @@ public class LaserTower extends Tower {
     	    }
     	}
     	
-    	if (min == null) return false;
+    	if (min == null) return attacked;
 
     	int min_index = min.getKey(); 
     	
@@ -195,7 +193,7 @@ public class LaserTower extends Tower {
 		for (int i = 0 ; i < hurt_mon.size() ; i ++) {
 			hurt_mon.get(i).setHP((int)Math.round(Math.max(0, hurt_mon.get(i).getHP()-getAttack())));
 		}
-		return true;
+		return hurt_mon;
     	
     }
     
