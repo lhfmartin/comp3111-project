@@ -206,4 +206,12 @@ public class LaserTower extends Tower {
                 + "Cost: " + getBuildCost() + "\n"
                 + "Money required for laser shoot: " + required_resources;
     }
+    
+    @Override
+    public void isgameover(AnchorPane paneArena) {
+    	if (line != null && line2 != null) {
+    		paneArena.getChildren().remove(line);
+    		paneArena.getChildren().remove(line2);
+    	}
+    }
 }

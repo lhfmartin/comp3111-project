@@ -100,5 +100,7 @@ public abstract class Tower {
 
     public abstract void upgrade();
     
+    public abstract void isgameover(AnchorPane paneArena);
+    
     public abstract ArrayList<Monster> attack(ArrayList<Monster> monsters, AnchorPane paneArena);
 }
