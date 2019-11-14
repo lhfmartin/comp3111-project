@@ -100,5 +100,5 @@ public abstract class Tower {
 
     public abstract void upgrade();
     
-    public abstract boolean attack(ArrayList<Monster> monsters, AnchorPane paneArena);
+    public abstract ArrayList<Monster> attack(ArrayList<Monster> monsters, AnchorPane paneArena);
 }

@@ -33,8 +33,9 @@ public class IceTower extends Tower {
     }
     
     @Override
-    public boolean attack(ArrayList<Monster> monsters, AnchorPane paneArena) {
-    
+    public ArrayList<Monster> attack(ArrayList<Monster> monsters, AnchorPane paneArena) {
+    	ArrayList<Monster> attacked = new ArrayList<Monster>();
+    	
     	if (line != null) paneArena.getChildren().remove(line);
 
     	if (!slowdown.keySet().isEmpty()) {
@@ -101,7 +102,7 @@ public class IceTower extends Tower {
     	    }
     	}
     	
-    	if (min == null) return false;
+    	if (min == null) return attacked;
 
     	int min_index = min.getKey(); 
     	
@@ -124,15 +125,17 @@ public class IceTower extends Tower {
     		remain.set(0, remain.get(0)+slowdown_period);
 	    	prey.setSpeed(Math.max(0, prey.getSpeed()-slowdown_speed));
 	    	prey.setHP((int)Math.max(prey.getHP()- getAttack(),0));
+	    	attacked.add(prey);
     	}
     	else {
 	    	target.add(slowdown_period);
 	    	target.add(prey.getSpeed());
 	    	prey.setSpeed(Math.max(0, prey.getSpeed()-slowdown_speed));
 	    	slowdown.put(prey, target);
+	    	attacked.add(prey);
     	}
     	
-    	return true;
+    	return attacked;
     }
     
     @Override

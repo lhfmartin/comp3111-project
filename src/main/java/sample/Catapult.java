@@ -32,7 +32,8 @@ public class Catapult extends Tower {
     }
     
     @Override
-    public boolean attack(ArrayList<Monster> monsters, AnchorPane paneArena) {
+    public ArrayList<Monster> attack(ArrayList<Monster> monsters, AnchorPane paneArena) {
+    	ArrayList<Monster> attacked = new ArrayList<Monster>();
 		if (this.circle_b4 != null && this.circle_surrounding!= null) {
 			paneArena.getChildren().remove(circle_b4);
 			paneArena.getChildren().remove(circle_surrounding);
@@ -55,11 +56,8 @@ public class Catapult extends Tower {
 	    	ArrayList<Integer> index = new ArrayList<Integer>();
 	    	for (int i = 0 ; i < distance.size(); i++) {
 	    		if (distance.get(i) > 50) {
-	    			if (distance.get(i) < 150){
-	    				if (Arena.sequence[monsters.get(i).getY()][monsters.get(i).getX()] == monsters.get(i))
-	    					index.add(i);
-//						System.out.println(monsters.get(i).getName() + " within the range [50,150]");
-	    			}
+	    			if (distance.get(i) < 150) index.add(i);
+	    			
 	    		}
 
 	    	}
@@ -80,7 +78,7 @@ public class Catapult extends Tower {
 	    	    }
 	    	}
 	    	
-	    	if (min == null) return false;
+	    	if (min == null) return attacked;
 
 	    	int min_index = min.getKey(); 
 
@@ -109,16 +107,17 @@ public class Catapult extends Tower {
     			ArrayList<Integer> monster_pixel = getpixel(monsters.get(j).getX(), monsters.get(j).getY());
     			if (circle_surrounding.contains(monster_pixel.get(0), monster_pixel.get(1))) {
     				monsters.get(j).setHP((int)Math.round(Math.max(monsters.get(j).getHP() - getAttack(), 0)));
+    				attacked.add(monsters.get(j));
     			}
 			}
 
 //	    	System.out.println();	    	
 	    	restore_time = rest_time;
-	    	return true;
+	    	return attacked;
     	}
     	else {
     		restore_time--;
-    		return false;
+    		return attacked;
     	}
     	
     }
