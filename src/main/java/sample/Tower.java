@@ -1,6 +1,9 @@
 package sample;
 
+import java.util.ArrayList;
+
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 
 public abstract class Tower {
     private String name;
@@ -12,6 +15,8 @@ public abstract class Tower {
     private int y;
     private double attack;
     private double upgradeCost;
+    public static final int GRID_WIDTH = 40;
+    public static final int GRID_HEIGHT = 40;
 
     public Tower(String name, Image image) {
         this.name = name;
@@ -85,6 +90,17 @@ public abstract class Tower {
                 + "Attack: " + attack + "\n"
                 + "Cost: " + buildCost;
     }
+    
+    public ArrayList<Integer> getpixel(int x, int y){
+    	ArrayList<Integer> pixel = new ArrayList<Integer>();
+    	pixel.add(x * GRID_WIDTH + GRID_WIDTH/2);
+    	pixel.add(y * GRID_HEIGHT + GRID_HEIGHT/2);
+    	return pixel;
+    }
 
-    public abstract boolean upgrade();
+    public abstract void upgrade();
+    
+    public abstract void isgameover(AnchorPane paneArena);
+    
+    public abstract ArrayList<Monster> attack(ArrayList<Monster> monsters, AnchorPane paneArena);
 }
