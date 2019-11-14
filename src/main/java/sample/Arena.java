@@ -15,7 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.*;
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
+import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
@@ -48,9 +48,9 @@ public class Arena {
 
     @FXML
     private Label labelMoney;
-    
+
     private int frame=0;
-    
+
     private static final int ARENA_WIDTH = 480;
     private static final int ARENA_HEIGHT = 480;
     public static final int GRID_WIDTH = 40;
@@ -60,7 +60,7 @@ public class Arena {
 
     private Label grids[][] = new Label[MAX_V_NUM_GRID][MAX_H_NUM_GRID]; //the grids on arena
     private int x = -1, y = 0; //where is my monster
-    private double money = 10000000;
+    private double money = 10000;
     private ArrayList<Tower> towers = new ArrayList<Tower>();
     private ArrayList<Monster> monsters = new ArrayList<Monster>();
     static Monster sequence[][];
@@ -149,7 +149,7 @@ public class Arena {
 //	        	System.out.println(t.getX()+ " " + t.getY());
 //	        }
 	    	if (!Gameover()) {
-		    	for (int i = 0 ; i < towers.size() ; i ++) { 
+		    	for (int i = 0 ; i < towers.size() ; i ++) {
 		    		ArrayList<Monster> attacked;
 		    		if (towers.get(i) instanceof LaserTower) {
 		    			LaserTower lt = (LaserTower)towers.get(i);
@@ -165,7 +165,7 @@ public class Arena {
 		    			System.out.println(String.format("<%s>@(<%d>.<%d>) -> <%s>@(<%d>, <%d>)", towers.get(i).getName(), towers.get(i).getX(), towers.get(i).getY(), m.getName(), m.getX(), m.getY()));
 		    		}
 		    	}
-	
+
 		    	for(int i=0;i<monsters.size();i++) {
 		        	Monster a = monsters.get(i);
 		        	if(a.getX()<12&&a.getY()<12) {
@@ -179,7 +179,7 @@ public class Arena {
 		        	}
 		        }
 	    	}
-	    	
+
     	}
         frame ++;
     }
@@ -194,16 +194,16 @@ public class Arena {
         Label source2 = labelIceTower;
         Label source3 = labelCatapult;
         Label source4 = labelLaserTower;
-        
-        
+
+
         source1.setOnDragDetected(new DragEventHandler(source1));
         source2.setOnDragDetected(new DragEventHandler(source2));
         source3.setOnDragDetected(new DragEventHandler(source3));
         source4.setOnDragDetected(new DragEventHandler(source4));
-        
+
 
         target.setOnDragDropped((event) -> {
-            System.out.println("xx");
+//            System.out.println("xx");
             Dragboard db = event.getDragboard();
             boolean success = false;
             System.out.println(db.getString());
@@ -222,6 +222,12 @@ public class Arena {
                     updateMoneyLabel();
 
                     target.setOnMouseEntered((event1) -> {
+                        Circle maxRangeShade = new Circle((x + 0.5) * GRID_WIDTH, (y + 0.5) * GRID_HEIGHT, tower.getMaxRange());
+                        Circle notInRangeShade = new Circle((x + 0.5) * GRID_WIDTH, (y + 0.5) * GRID_HEIGHT, tower.getMinRange());
+                        Shape rangeShade = Path.subtract(maxRangeShade, notInRangeShade);
+                        rangeShade.setFill(Color.grayRgb(125, 0.7));
+                        paneArena.getChildren().add(rangeShade);
+
                         Text towerInfo = new Text(tower.getInfo());
                         VBox vbox = new VBox(towerInfo);
                         vbox.setId("towerInformation");
@@ -231,54 +237,65 @@ public class Arena {
                         paneArena.layout();
                         vbox.setLayoutX((x + 1) * GRID_WIDTH + vbox.getWidth() >= ARENA_WIDTH ? x * GRID_WIDTH - vbox.getWidth() : (x + 1) * GRID_WIDTH);
                         vbox.setLayoutY(y * GRID_HEIGHT + vbox.getHeight() >= ARENA_HEIGHT ? (y + 1) * GRID_WIDTH - vbox.getHeight() : y * GRID_HEIGHT);
-                    });
 
-                    target.setOnMouseExited((event1) -> {
-                        paneArena.getChildren().remove(paneArena.lookup("#towerInformation"));
-                    });
+                        Rectangle rectangle = new Rectangle(GRID_WIDTH, GRID_HEIGHT, Color.gray(0, 0));
+                        VBox vbox2 = new VBox(rectangle);
+                        vbox2.setLayoutX(x * GRID_WIDTH);
+                        vbox2.setLayoutY(y * GRID_HEIGHT);
+                        paneArena.getChildren().add(vbox2);
 
-                    target.setOnMouseClicked((event1) -> {
-                        if(paneArena.lookup("#destroyUpgradeHbox" + x + "" + y) != null){
-                            paneArena.lookup("#destroyUpgradeHbox" + x + "" + y).setVisible(!paneArena.lookup("#destroyUpgradeHbox" + x + "" + y).isVisible());
-                            return;
-                        }
-                        Button destroyButton = new Button("Destroy");
-                        Button upgradeButton = new Button("Upgrade");
-                        HBox hbox = new HBox(destroyButton, upgradeButton);
-                        hbox.setId("destroyUpgradeHbox" + x + "" + y);
-                        hbox.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-                        hbox.setPadding(new Insets(4));
-                        paneArena.getChildren().add(hbox);
-                        paneArena.applyCss();
-                        paneArena.layout();
-
-                        hbox.setLayoutX(x * GRID_WIDTH + GRID_WIDTH / 2 + hbox.getWidth() / 2 >= ARENA_WIDTH ? (x + 1) * GRID_WIDTH - hbox.getWidth() : x * GRID_WIDTH + GRID_WIDTH / 2 - hbox.getWidth() / 2 < 0 ? 0 : x * GRID_WIDTH + GRID_WIDTH / 2 - hbox.getWidth() / 2);
-                        hbox.setLayoutY(y * GRID_HEIGHT - hbox.getHeight() < 0 ? (y + 1) * GRID_HEIGHT : y * GRID_HEIGHT - hbox.getHeight());
-
-                        destroyButton.setOnMouseClicked((event2) -> {
-                            target.setText("");
-                            ((Label)event.getGestureTarget()).setGraphic(null);
-                            if(towers.remove(tower)){
-                                System.out.println("Tower removed successfully");
-                            }
-                            paneArena.getChildren().remove(paneArena.lookup("#destroyUpgradeHbox" + x + "" + y));
-                            target.setOnMouseEntered(null);
-                            target.setOnMouseExited(null);
-                            target.setOnMouseClicked(null);
+                        vbox2.setOnMouseExited(event2 -> {
+                            paneArena.getChildren().remove(paneArena.lookup("#towerInformation"));
+                            paneArena.getChildren().remove(rangeShade);
+                            paneArena.getChildren().remove(vbox2);
                         });
 
-                        upgradeButton.setOnMouseClicked((event2) -> {
-                            if(tower.getUpgradeCost() > money){
-                                System.out.println("not enough resource to upgrade " + tower.getName());
-                            } else {
-                                tower.upgrade();
-                                money -= tower.getUpgradeCost();
-                                updateMoneyLabel();
-                                System.out.println(tower.getName() + " is being upgraded");
+
+                        vbox2.setOnMouseClicked((event2) -> {
+                            if(paneArena.lookup("#destroyUpgradeHbox" + x + "" + y) != null){
+                                paneArena.lookup("#destroyUpgradeHbox" + x + "" + y).setVisible(!paneArena.lookup("#destroyUpgradeHbox" + x + "" + y).isVisible());
+                                return;
                             }
-                            hbox.setVisible(false);
+                            Button destroyButton = new Button("Destroy");
+                            Button upgradeButton = new Button("Upgrade");
+                            HBox hbox = new HBox(destroyButton, upgradeButton);
+                            hbox.setId("destroyUpgradeHbox" + x + "" + y);
+                            hbox.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                            hbox.setPadding(new Insets(4));
+                            paneArena.getChildren().add(hbox);
+                            paneArena.applyCss();
+                            paneArena.layout();
+
+                            hbox.setLayoutX(x * GRID_WIDTH + GRID_WIDTH / 2 + hbox.getWidth() / 2 >= ARENA_WIDTH ? (x + 1) * GRID_WIDTH - hbox.getWidth() : x * GRID_WIDTH + GRID_WIDTH / 2 - hbox.getWidth() / 2 < 0 ? 0 : x * GRID_WIDTH + GRID_WIDTH / 2 - hbox.getWidth() / 2);
+                            hbox.setLayoutY(y * GRID_HEIGHT - hbox.getHeight() < 0 ? (y + 1) * GRID_HEIGHT : y * GRID_HEIGHT - hbox.getHeight());
+
+                            destroyButton.setOnMouseClicked((event3) -> {
+                                target.setText("");
+                                ((Label)event.getGestureTarget()).setGraphic(null);
+                                if(towers.remove(tower)){
+                                    System.out.println("Tower removed successfully");
+                                }
+                                paneArena.getChildren().remove(paneArena.lookup("#destroyUpgradeHbox" + x + "" + y));
+                                target.setOnMouseEntered(null);
+                                target.setOnMouseExited(null);
+                                target.setOnMouseClicked(null);
+                            });
+
+                            upgradeButton.setOnMouseClicked((event3) -> {
+                                if(tower.getUpgradeCost() > money){
+                                    System.out.println("Not enough resource to upgrade " + tower.getName());
+                                } else {
+                                    tower.upgrade();
+                                    money -= tower.getUpgradeCost();
+                                    updateMoneyLabel();
+                                    System.out.println(tower.getName() + " is being upgraded");
+                                }
+                                hbox.setVisible(false);
+                            });
                         });
                     });
+
+
                 }
             }
             success = true;
@@ -305,7 +322,7 @@ public class Arena {
 
         target.setOnDragEntered((event) -> {
             /* the drag-and-drop gesture entered the target */
-            System.out.println("onDragEntered");
+//            System.out.println("onDragEntered");
             /* show to the user that it is an actual gesture target */
             if (event.getGestureSource() != target &&
                     event.getDragboard().hasString()) {
@@ -318,11 +335,11 @@ public class Arena {
         target.setOnDragExited((event) -> {
             /* mouse moved away, remove the graphical cues */
             target.setStyle("-fx-border-color: black;");
-            System.out.println("Exit");
+//            System.out.println("Exit");
             event.consume();
         });
     }
-    
+
     private void getMonsterInfo(int x, int y) {
     	Label target = grids[y][x];
 		//System.out.println("Enter1");
@@ -377,28 +394,30 @@ public class Arena {
                 return null;
         }
     }
-    
-    
+
+
     public Monster createMonster() {
-    	
+
     	Monster monster =null;
     	switch((int)(Math.random()*3)) {
-    	case 0:	
+    	case 0:
     		monster = new Fox(8+frame/10, 2);
     		break;
-    	case 1:	
+    	case 1:
     		monster = new Penguin(10+frame/10, 1);
     		break;
-    	case 2:	
+    	case 2:
     		monster = new Unicorn(12+frame/10, 1);
     		break;
        	default:
     		return null;
     	}
     	monsters.add(monster);
+
+    	System.out.println("<" + monster.getName() + ">:<" + monster.getHP() + "> generated");
     	return monster;
     }
-    
+
     public void moveMonster(){
     	sequence = new Monster[MAX_V_NUM_GRID][MAX_H_NUM_GRID];
     	for(int i=0;i<monsters.size();i++) {
@@ -416,29 +435,29 @@ public class Arena {
         			if(a.getX()%2==1) {
         				temp = a.getX()+1;
         				if(temp<12) {
-        					a.setX(temp);	
+        					a.setX(temp);
         				}
         				else {
-        					a.setX(11);	
+        					a.setX(11);
         				}
         			}
         			else if((a.getX())%4==0) {
         				if(a.getY()== MAX_V_NUM_GRID-1) {
             				temp = a.getX()+1;
             				if(temp<12) {
-            					a.setX(temp);	
+            					a.setX(temp);
             				}
             				else {
-            					a.setX(11);	
+            					a.setX(11);
             				}
         				}
         				else {
             				temp = a.getY()+1;
             				if(temp<12) {
-            					a.setY(temp);	
+            					a.setY(temp);
             				}
             				else {
-            					a.setX(11);	
+            					a.setX(11);
             				}
         				}
         			}
@@ -446,19 +465,19 @@ public class Arena {
         				if(a.getY()==0) {
             				temp = a.getX()+1;
             				if(temp<12) {
-            					a.setX(temp);	
+            					a.setX(temp);
             				}
             				else {
-            					a.setX(11);	
+            					a.setX(11);
             				}
         				}
         				else {
             				temp = a.getY()-1;
             				if(temp<12) {
-            					a.setY(temp);	
+            					a.setY(temp);
             				}
             				else {
-            					a.setX(11);	
+            					a.setX(11);
             				}
         				}
         			}
@@ -469,25 +488,25 @@ public class Arena {
             	}
         	}
         	else {
-        		
+
         	}
     	}
     }
-    
+
     public void createMonsterIcon(Monster a ) {
         ImageView imageView = new ImageView(a.getImage());
         imageView.setFitWidth(GRID_WIDTH * 0.9);
         imageView.setFitHeight(GRID_HEIGHT * 0.9);
         grids[a.getY()][a.getX()].setGraphic(imageView);
     }
-    
+
     public void createCollisionIcon(Monster a ) {
         ImageView imageView = new ImageView("collision.png");
         imageView.setFitWidth(GRID_WIDTH * 0.9);
         imageView.setFitHeight(GRID_HEIGHT * 0.9);
         grids[a.getY()][a.getX()].setGraphic(imageView);
     }
-    
+
     public boolean Gameover() {
     	for(int i=0;i<monsters.size();i++) {
         	Monster a = monsters.get(i);
@@ -502,9 +521,9 @@ public class Arena {
         		vbox.setLayoutX(200);
         		vbox.setLayoutY(200);
         		System.out.println("Gameover");
-		    	for (int j = 0 ; j < towers.size() ; j ++) 
+		    	for (int j = 0 ; j < towers.size() ; j ++)
 		    		towers.get(j).isgameover(paneArena);
-		    	
+
         		return true;
         		//System.exit(0);
         	}
