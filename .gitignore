@@ -7,3 +7,6 @@ build/**
 out/
 out/**
 /bin/
+.classpath
+build.gradle
+towerDefence-0.1.0.jar
