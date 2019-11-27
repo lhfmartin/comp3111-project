@@ -19,6 +19,23 @@ public class IceTower extends Tower {
 	int slowdown_period = 3;
 	int slowdown_speed = 1;
 	
+	public Line getLine() {
+		return line;
+	}
+	
+	public int getSlowdown_period() {
+		return slowdown_period ;
+	}
+	
+	public int getSlowdown_speed() {
+		return slowdown_speed;
+	}
+	
+	public HashMap<Monster, ArrayList<Integer>> getSlowdown(){
+		return slowdown;
+	}
+	
+	
     IceTower(){
         super("Ice Tower", new Image("iceTower.png"));
     }

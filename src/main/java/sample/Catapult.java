@@ -18,6 +18,22 @@ public class Catapult extends Tower {
 	private Circle circle_b4;
 	private Circle circle_surrounding;
 	
+	public int getRestore_time() {
+		return restore_time;
+	}
+	
+	public int getRest_time() {
+		return rest_time;
+	}
+	
+	public Circle getCicle_b4() {
+		return circle_b4;
+	}
+	
+	public Circle circle_surrounding() {
+		return circle_surrounding;
+	}
+	
     Catapult(){
         super("Catapult", new Image("catapult.png"));
     }
