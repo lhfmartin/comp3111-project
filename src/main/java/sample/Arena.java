@@ -65,7 +65,25 @@ public class Arena {
     private ArrayList<Monster> monsters = new ArrayList<Monster>();
     static Monster sequence[][];
 
-
+    public Label[][]  getGrids() {
+    	return grids;
+    }
+    
+    public  ArrayList<Tower> getTower(){
+    	return towers;
+    }
+    
+    public ArrayList<Monster> getMonsters(){
+    	return monsters;
+    }
+    
+    public Monster[][] getSequence(){
+    	return sequence;
+    }
+    
+    public double getMoney() {
+    	return money;
+    }
     /**
      * A dummy function to show how button click works
      */
