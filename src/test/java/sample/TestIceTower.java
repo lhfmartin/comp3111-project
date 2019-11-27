@@ -82,15 +82,15 @@ public class TestIceTower extends ApplicationTest{
 	@Test 
 	public void testAttack() {
 		I1 = new IceTower(1,1);
-		I1.attack(m, paneArena);
-		I1.attack(m10, paneArena);
-		I1.attack(m, paneArena);
-		I1.attack(m10, paneArena);
-		I1.attack(m10, paneArena);
-		I1.attack(m10, paneArena);
-		I1.attack(m10, paneArena);
-		I1.attack(m10, paneArena);
-		I1.attack(m10, paneArena);
+		Assert.assertTrue(I1.attack(m, paneArena).size() > 0);
+		Assert.assertTrue(I1.attack(m10, paneArena).size() == 0);
+		Assert.assertTrue(I1.attack(m, paneArena).size() > 0);
+		Assert.assertTrue(I1.attack(m10, paneArena).size() == 0);
+		Assert.assertTrue(I1.attack(m10, paneArena).size() == 0);
+		Assert.assertTrue(I1.attack(m10, paneArena).size() == 0);
+		Assert.assertTrue(I1.attack(m10, paneArena).size() == 0);
+		Assert.assertTrue(I1.attack(m10, paneArena).size() == 0);
+		Assert.assertTrue(I1.attack(m10, paneArena).size() == 0);
 	}
 
 }
