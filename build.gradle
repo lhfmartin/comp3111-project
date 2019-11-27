@@ -47,7 +47,11 @@ dependencies {
     // testFX - https://github.com/TestFX/TestFX
     testCompile  group: 'org.testfx', name: 'testfx-junit', version : '4.0.15-alpha'
 
+    testCompile "org.testfx:testfx-core:4.0.16-alpha"
+}
 
+jacoco {
+    toolVersion = "0.8.2"
 }
 
 jacocoTestReport {
