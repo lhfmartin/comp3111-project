@@ -84,6 +84,8 @@ public class Arena {
     public double getMoney() {
     	return money;
     }
+
+    private TowerFactory towerFactory;
     /**
      * A dummy function to show how button click works
      */
@@ -384,33 +386,11 @@ public class Arena {
     }
 
     public Tower createTower(String label){
-        switch (label){
-            case "Basic Tower":
-                return new BasicTower();
-            case "Ice Tower":
-                return new IceTower();
-            case "Catapult":
-                return new Catapult();
-            case "Laser Tower":
-                return new LaserTower();
-            default:
-                return null;
-        }
+        return towerFactory.createTower(label);
     }
 
     public Tower createTower(String label, int x, int y){
-        switch (label){
-            case "Basic Tower":
-                return new BasicTower(x, y);
-            case "Ice Tower":
-                return new IceTower(x, y);
-            case "Catapult":
-                return new Catapult(x, y);
-            case "Laser Tower":
-                return new LaserTower(x, y);
-            default:
-                return null;
-        }
+        return towerFactory.createTower(label, x, y);
     }
 
 
