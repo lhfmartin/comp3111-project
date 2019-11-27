@@ -32,7 +32,6 @@ public class TestLaserTower extends ApplicationTest{
         primaryStage.setTitle("Tower Defence");
         s = new Scene(root, 600, 480);
         primaryStage.setScene(s);
-        primaryStage.show();
 		Monster m1 = new Fox(10, 2);
 		Monster m2 = new Fox(10, 2);
 		Monster m2_1 = new Fox(10, 2);
