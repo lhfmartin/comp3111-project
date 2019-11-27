@@ -427,8 +427,6 @@ public class Arena {
     	case 2:
     		monster = new Unicorn(12+frame/10, 1);
     		break;
-       	default:
-    		return null;
     	}
     	monsters.add(monster);
 
