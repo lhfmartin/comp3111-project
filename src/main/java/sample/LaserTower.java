@@ -173,7 +173,7 @@ public class LaserTower extends Tower {
 		fullline.setEndX(tower.get(0));
 		fullline.setEndY(tower.get(1));
 		fullline.setStyle("-fx-stroke: blue;");
-		fullline.setStrokeWidth(6);
+		fullline.setStrokeWidth(7);
 
     	this.line = new_line;
     	this.line2 = border;
