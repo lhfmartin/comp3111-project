@@ -105,7 +105,7 @@ public class Arena {
     	return money;
     }
 
-    private TowerFactory towerFactory;
+    private TowerFactory towerFactory = new TowerFactory();
     /**
      * A dummy function to show how button click works
      */
