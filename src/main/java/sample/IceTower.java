@@ -23,6 +23,10 @@ public class IceTower extends Tower {
 		return line;
 	}
 	
+	public void setLine(Line l) {
+		line = l;
+	}
+	
 	public int getSlowdown_period() {
 		return slowdown_period ;
 	}
@@ -93,13 +97,13 @@ public class IceTower extends Tower {
     	    	
     	ArrayList<Integer> index = new ArrayList<Integer>();
     	for (int i = 0 ; i < distance.size(); i++) {
-    		if (distance.get(i) >= 0) {
+//    		if (distance.get(i) >= 0) {
     			if (distance.get(i) <= 65){
     				if (Arena.sequence[monsters.get(i).getY()][monsters.get(i).getX()] == monsters.get(i))
     					index.add(i);
 //					System.out.println(monsters.get(i).getName() + " within the range [0,65]");
     			}
-    		}
+//    		}
 
     	}
     	
