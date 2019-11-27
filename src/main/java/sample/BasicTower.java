@@ -14,6 +14,10 @@ public class BasicTower extends Tower {
 	
 	private Line line;
 	
+	public Line getLine() {
+		return line;
+	}
+	
     BasicTower(){
         super("Basic Tower", new Image("basicTower.png"));
     }

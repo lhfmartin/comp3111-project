@@ -16,6 +16,18 @@ public class LaserTower extends Tower {
 	private Line line2;
 	private double required_resources = 10;
 	
+	public Line getLine() {
+		return line;
+	}
+	
+	public Line getLine2() {
+		return line2;
+	}
+	
+	public double getRequired_resources() {
+		return required_resources;
+	}
+	
     LaserTower(){
         super("Laser Tower", new Image("laserTower.png"));
     }
