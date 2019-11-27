@@ -89,7 +89,7 @@ public class Arena {
     	return paneArena;
     }
     
-    public  ArrayList<Tower> getTower(){
+    public ArrayList<Tower> getTower(){
     	return towers;
     }
     
