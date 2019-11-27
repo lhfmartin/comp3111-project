@@ -11,10 +11,10 @@ public abstract class Monster {
     private int HP;
     private int speed;
     
-    public Monster(String name, Image image) {
-        this.name = name;
-        this.image = image;
-    }
+//    public Monster(String name, Image image) {
+//        this.name = name;
+//        this.image = image;
+//    }
 
     public Monster(String name, Image image, int x, int y, int maxHP, int speed) {
     	this.name = name;
