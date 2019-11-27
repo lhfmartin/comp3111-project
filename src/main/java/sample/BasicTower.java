@@ -14,6 +14,9 @@ public class BasicTower extends Tower {
 	
 	private Line line;
 	
+	public void setline(Line l) {
+		line = l;
+	}
 	public Line getLine() {
 		return line;
 	}
@@ -58,14 +61,14 @@ public class BasicTower extends Tower {
     	
     	ArrayList<Integer> index = new ArrayList<Integer>();
     	for (int i = 0 ; i < distance.size(); i++) {
-    		if (distance.get(i) >= 0) {
+//    		if (distance.get(i) >= 0) {
     			if (distance.get(i) <= 65){
 //    				System.out.println(Arena.sequence[monsters.get(i).getY()][monsters.get(i).getX()]);
     				if (Arena.sequence[monsters.get(i).getY()][monsters.get(i).getX()] == monsters.get(i))
     					index.add(i);
 //					System.out.println(monsters.get(i).getName() + " within the range [0,65]");
     			}
-    		}
+    	//	}
 
     	}
     	

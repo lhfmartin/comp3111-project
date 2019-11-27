@@ -16,6 +16,14 @@ public class LaserTower extends Tower {
 	private Line line2;
 	private double required_resources = 10;
 	
+	public void setLine1(Line l) {
+		line = l;
+	}
+	
+	public void setLine2(Line l2) {
+		line2 = l2;
+	}
+	
 	public Line getLine() {
 		return line;
 	}
@@ -45,7 +53,7 @@ public class LaserTower extends Tower {
     	return required_resources;
     }
     
-    public ArrayList<Double> equationofline (ArrayList<Integer> pta, ArrayList<Integer> ptb){
+    private ArrayList<Double> equationofline (ArrayList<Integer> pta, ArrayList<Integer> ptb){
     	ArrayList<Double> line = new ArrayList<Double>();
     	double x1 = pta.get(0);
     	double y1 = pta.get(1);
@@ -59,7 +67,7 @@ public class LaserTower extends Tower {
     }
     
         
-    public Line nearestborder (Double slope, Double c, ArrayList<Integer> monster, ArrayList<Integer> tower){
+    private Line nearestborder (Double slope, Double c, ArrayList<Integer> monster, ArrayList<Integer> tower){
     	ArrayList<Point2D> border = new ArrayList<Point2D>();
     	Line line = new Line();
     	double max_x = 480;
@@ -126,10 +134,10 @@ public class LaserTower extends Tower {
     	
     	ArrayList<Integer> index = new ArrayList<Integer>();
     	for (int i = 0 ; i < distance.size(); i++) {
-    		if (distance.get(i) >= 0) {
+//    		if (distance.get(i) >= 0) {
     			if (distance.get(i) <= 65)
     					index.add(i);
-    		}
+//    		}
 
     	}
     	
@@ -194,11 +202,11 @@ public class LaserTower extends Tower {
 				if (!hurt_mon.contains(monsters.get(i))) 
 					hurt_mon.add(monsters.get(i));
 			}
-			if (!hurt_mon.contains(monsters.get(i)) && t.distance(cur) <= 3) 
-				hurt_mon.add(monsters.get(i)); 
-			
-			if (!hurt_mon.contains(monsters.get(i)) && edge.distance(cur) <= 3) 
-				hurt_mon.add(monsters.get(i)); 
+//			if (!hurt_mon.contains(monsters.get(i)) && t.distance(cur) <= 3) 
+//				hurt_mon.add(monsters.get(i)); 
+//			
+//			if (!hurt_mon.contains(monsters.get(i)) && edge.distance(cur) <= 3) 
+//				hurt_mon.add(monsters.get(i)); 
 			
 		}
 
