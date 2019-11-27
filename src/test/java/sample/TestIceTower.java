@@ -30,7 +30,6 @@ public class TestIceTower extends ApplicationTest{
         primaryStage.setTitle("Tower Defence");
         s = new Scene(root, 600, 480);
         primaryStage.setScene(s);
-        primaryStage.show();
         Monster m1 = new Fox(10, 2);
 		Monster m2 = new Fox(10, 2);
 		Monster m2_1 = new Fox(10, 2);
@@ -83,15 +82,15 @@ public class TestIceTower extends ApplicationTest{
 	@Test
 	public void testAttack() {
 		I1 = new IceTower(1,1);
-		I1.attack(m, paneArena);
-		I1.attack(m10, paneArena);
-		I1.attack(m, paneArena);
-		I1.attack(m10, paneArena);
-		I1.attack(m10, paneArena);
-		I1.attack(m10, paneArena);
-		I1.attack(m10, paneArena);
-		I1.attack(m10, paneArena);
-		I1.attack(m10, paneArena);
+		Assert.assertTrue(I1.attack(m, paneArena).size() > 0);
+		Assert.assertTrue(I1.attack(m10, paneArena).size() == 0);
+		Assert.assertTrue(I1.attack(m, paneArena).size() > 0);
+		Assert.assertTrue(I1.attack(m10, paneArena).size() == 0);
+		Assert.assertTrue(I1.attack(m10, paneArena).size() == 0);
+		Assert.assertTrue(I1.attack(m10, paneArena).size() == 0);
+		Assert.assertTrue(I1.attack(m10, paneArena).size() == 0);
+		Assert.assertTrue(I1.attack(m10, paneArena).size() == 0);
+		Assert.assertTrue(I1.attack(m10, paneArena).size() == 0);
 	}
 
 }

@@ -32,7 +32,6 @@ public class TestLaserTower extends ApplicationTest{
         primaryStage.setTitle("Tower Defence");
         s = new Scene(root, 600, 480);
         primaryStage.setScene(s);
-        primaryStage.show();
 		Monster m1 = new Fox(10, 2);
 		Monster m2 = new Fox(10, 2);
 		Monster m2_1 = new Fox(10, 2);
@@ -61,10 +60,6 @@ public class TestLaserTower extends ApplicationTest{
 		m.add(m3);
 		m.add(m4);
 		m.add(m7);
-
-        Arena appController = (Arena)loader.getController();
-
-        appController.createArena();
 	}
 
 
@@ -88,26 +83,24 @@ public class TestLaserTower extends ApplicationTest{
 
 	@Test
 	public void testattack() {
-		lt2.attack(m10, paneArena);
-		lt2.attack(m, paneArena);
-		lt2.attack(m, paneArena);
-		lt2.attack(m, paneArena);
-		lt2.attack(m, paneArena);
-		lt2.attack(m, paneArena);
-		lt2.attack(m, paneArena);
-		lt2.attack(m, paneArena);
-		lt2.attack(m, paneArena);
+		Assert.assertTrue(lt2.attack(m10, paneArena).size() == 0);
+		Assert.assertTrue(lt2.attack(m, paneArena).size() > 0);
+		Assert.assertTrue(lt2.attack(m, paneArena).size() > 0);
+		Assert.assertTrue(lt2.attack(m, paneArena).size() > 0);
+		Assert.assertTrue(lt2.attack(m, paneArena).size() > 0);
 		lt2.isgameover(paneArena);
+		Assert.assertEquals(paneArena.getChildren().contains(lt2.getLine()), false);
 		lt2.setLine1(null);
 		lt2.setLine2(null);
 		lt2.isgameover(paneArena);
+		Assert.assertEquals(paneArena.getChildren().contains(lt2.getLine()), false);
 		lt = new LaserTower(3,2);
 		ArrayList<Monster> mm = new ArrayList<Monster>();
 		Monster m1 = new Fox(10, 2);
 		m1.setX(3);
 		m1.setY(1);
 		mm.add(m1);
-		lt.attack(mm,paneArena);
+		Assert.assertTrue(lt.attack(mm,paneArena).size() > 0);
 
 	}
 
