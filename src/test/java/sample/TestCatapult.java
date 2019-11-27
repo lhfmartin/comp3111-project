@@ -18,15 +18,16 @@ public class TestCatapult extends ApplicationTest {
 	private Scene s;
 	ArrayList<Monster> m = new ArrayList<Monster>();
 	ArrayList<Monster> m10 = new ArrayList<Monster>();
-	Catapult t = new Catapult(3,5);
-	Catapult t2 = new Catapult();
-	Catapult t3 = new Catapult();
+	Catapult t;
+	Catapult t2;
+	Catapult t3;
 
 	
 	public void start(Stage primaryStage) throws Exception{
 		paneArena = new AnchorPane();
-
-		
+		t = new Catapult(3,5);
+		t2 = new Catapult();
+		t3 = new Catapult();
 		Monster m1 = new Fox(10, 2);
 		Monster m2 = new Fox(10, 2);
 		Monster m3 = new Fox(10, 2);
@@ -63,25 +64,20 @@ public class TestCatapult extends ApplicationTest {
 	}
 	@Test
 	public void test() {
-		t.attack(m,paneArena);
-		t.attack(m,paneArena);
-		t.attack(m,paneArena);
-		t.attack(m,paneArena);
-		t.attack(m,paneArena);
-		t.attack(m,paneArena);
-		t.attack(m,paneArena);
-		t.attack(m,paneArena);
-		t.attack(m,paneArena);
-		t.attack(m,paneArena);
+		Assert.assertTrue(t.attack(m,paneArena).size() > 0);
+		Assert.assertEquals(t.attack(m,paneArena).size(), 0);
 		Assert.assertNotNull(t.getRestore_time());
 		Assert.assertNotNull(t.getRest_time());
 		Assert.assertNotNull(t.getCicle_b4());
 		Assert.assertNotNull(t.circle_surrounding());
 		t.upgrade();
+		Assert.assertEquals(t.getRest_time(), 4);
 		Assert.assertNotNull(t.getInfo());
 		t.isgameover(paneArena);
+		Assert.assertEquals(paneArena.getChildren().contains(t.getCicle_b4()), false);
 		t.isgameover(paneArena);
-		t3.attack(m10,paneArena);
+		Assert.assertEquals(paneArena.getChildren().contains(t.getCicle_b4()), false);
+		Assert.assertEquals(t3.attack(m10,paneArena).size(), 0);
 
 	}
 
