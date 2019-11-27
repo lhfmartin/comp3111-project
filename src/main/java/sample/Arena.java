@@ -64,9 +64,29 @@ public class Arena {
     private ArrayList<Tower> towers = new ArrayList<Tower>();
     private ArrayList<Monster> monsters = new ArrayList<Monster>();
     static Monster sequence[][];
-
+    
+    public void setSequence(Monster [][] s) {
+    	sequence = s;
+    }
+    
+    public void setMonsters(ArrayList<Monster> m) {
+    	monsters = m; 
+    }
+    
+    public void setTower (ArrayList<Tower> t) {
+    	towers = t;
+    }
+    
+    public void setPaneArena (AnchorPane p) {
+    	paneArena = p;
+    }
+    
     public Label[][]  getGrids() {
     	return grids;
+    }
+    
+    public AnchorPane getPane() {
+    	return paneArena;
     }
     
     public  ArrayList<Tower> getTower(){
