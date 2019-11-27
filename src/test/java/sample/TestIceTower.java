@@ -56,7 +56,7 @@ public class TestIceTower extends ApplicationTest{
         appController.setSequence(s);
         appController.createArena();
 
-        
+
 	}
 
 	@Test
@@ -78,8 +78,8 @@ public class TestIceTower extends ApplicationTest{
 		paneArena.getChildren().addAll(l);
 		I1.isgameover(paneArena);
 	}
-	
-	@Test 
+
+	@Test
 	public void testAttack() {
 		I1 = new IceTower(1,1);
 		Assert.assertTrue(I1.attack(m, paneArena).size() > 0);

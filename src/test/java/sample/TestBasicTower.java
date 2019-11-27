@@ -16,7 +16,7 @@ import javafx.scene.Scene;
 
 
 public class TestBasicTower extends ApplicationTest {
-	
+
 	BasicTower basictower;
 	BasicTower basictower2;
 	BasicTower basictower3;
@@ -26,7 +26,7 @@ public class TestBasicTower extends ApplicationTest {
 	ArrayList<Monster> m = new ArrayList<Monster>();
 	ArrayList<Monster> m10 = new ArrayList<Monster>();
 
-	
+
 	@Override
 	public void start(Stage primaryStage) throws Exception{
 		basictower = new BasicTower(1,1);
@@ -35,7 +35,7 @@ public class TestBasicTower extends ApplicationTest {
 		paneArena = new AnchorPane();
 		basictower_attack = new BasicTower(1,1);
 
-		
+
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Tower Defence");
@@ -67,10 +67,10 @@ public class TestBasicTower extends ApplicationTest {
         appController.setSequence(s);
 
         appController.createArena();
-        
+
 	}
 
-	
+
 	@Test
 	public void testConstructor() {
 		Assert.assertNotNull(basictower);
@@ -92,32 +92,32 @@ public class TestBasicTower extends ApplicationTest {
 		Assert.assertEquals((int)basictower.getMinRange(),1);
 		Assert.assertEquals((int)basictower.getMaxRange(),10);
 
-		
+
 
 	}
-	
+
 	@Test
 	public void testConstructor2() {
 		Assert.assertNotNull(basictower2);
 	}
-	
+
 	@Test
 	public void testConstructor3() {
 		Assert.assertNotNull(basictower3);
 	}
-	
+
 	@Test
 	public void testUpgrade() {
 		int before = (int)basictower.getAttack();
 		basictower.upgrade();
 		Assert.assertEquals((int)basictower.getAttack(),before+1);
 	}
-	
+
 	@Test
 	public void testGetLine() {
 		Assert.assertNull(basictower.getLine());
 	}
-	
+
 	@Test
 	public void testisgameover() {
 		Line l = new Line();
@@ -126,7 +126,7 @@ public class TestBasicTower extends ApplicationTest {
 		basictower.isgameover(paneArena);
 		Assert.assertEquals(paneArena.getChildren().contains(l), false);
 	}
-	
+
 	@Test
 	public void testisgameover2() {
 		Line orginal = basictower.getLine();
@@ -135,8 +135,8 @@ public class TestBasicTower extends ApplicationTest {
 		basictower.isgameover(paneArena);
 		Assert.assertEquals(paneArena.getChildren().size(), before);
 	}
-	
-	@Test 
+
+	@Test
 	public void testAttack() {
 		ArrayList<Monster> attack = basictower_attack.attack(m, paneArena);
 		Assert.assertEquals(attack.get(0), m.get(1));
