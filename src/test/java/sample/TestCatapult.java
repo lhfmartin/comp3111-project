@@ -13,7 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 public class TestCatapult extends ApplicationTest {
-	
+
 	AnchorPane paneArena;
 	private Scene s;
 	ArrayList<Monster> m = new ArrayList<Monster>();
@@ -22,7 +22,7 @@ public class TestCatapult extends ApplicationTest {
 	Catapult t2;
 	Catapult t3;
 
-	
+
 	public void start(Stage primaryStage) throws Exception{
 		paneArena = new AnchorPane();
 		t = new Catapult(3,5);
@@ -36,7 +36,7 @@ public class TestCatapult extends ApplicationTest {
 		Monster m6 = new Fox(10, 2);		
 		Monster m7 = new Fox(10, 2);
 
-		
+
 		m1.setX(6);
 		m1.setY(4);
 		m2.setX(6);
@@ -51,7 +51,7 @@ public class TestCatapult extends ApplicationTest {
 		m6.setY(5);
 		m7.setX(100);
 		m7.setY(100);
-		
+
 		m.add(m1);
 		m.add(m2);
 		m.add(m3);
@@ -59,7 +59,7 @@ public class TestCatapult extends ApplicationTest {
 		m.add(m5);
 		m.add(m6);
 		m.add(m7);
-		
+
 
 	}
 	@Test

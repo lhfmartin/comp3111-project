@@ -13,7 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 public class TestLaserTower extends ApplicationTest{
-	
+
 	private Scene s;
 	ArrayList<Monster> m = new ArrayList<Monster>();
 	ArrayList<Monster> m10 = new ArrayList<Monster>();
@@ -61,8 +61,8 @@ public class TestLaserTower extends ApplicationTest{
 		m.add(m4);
 		m.add(m7);
 	}
-	
-	
+
+
 	@Test
 	public void constructortest() {
 		Assert.assertNotNull(lt);
@@ -72,15 +72,15 @@ public class TestLaserTower extends ApplicationTest{
 		Assert.assertNull(lt2.getLine2());
 		Assert.assertNull(lt2.getLine());
 		Assert.assertNotNull(lt2.getInfo());
-		lt2.upgrade();	
-		lt2.upgrade() ;		
-		lt2.upgrade() ;		
-		lt2.upgrade() ;		
+		lt2.upgrade();
+		lt2.upgrade() ;
+		lt2.upgrade() ;
+		lt2.upgrade() ;
 		Assert.assertEquals((int)lt2.getAttack(),7);
 
 
 	}
-	
+
 	@Test
 	public void testattack() {
 		Assert.assertTrue(lt2.attack(m10, paneArena).size() == 0);
