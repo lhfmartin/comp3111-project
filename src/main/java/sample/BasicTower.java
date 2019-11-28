@@ -9,35 +9,73 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 
 import java.lang.Math;
-
+/***
+ * This is Basic Tower. It has a shooting range of [0,65] pixels
+ * @author tszmoonhung
+ *
+ */
 public class BasicTower extends Tower {
-	
+
 	private Line line;
 	
+	/***
+	 * This is the setter function of shooting line
+	 * @param l shooting line of basic tower
+	 */
 	public void setline(Line l) {
 		line = l;
 	}
+	
+	/***
+	 * This is the getter function of shooting line
+	 * @return line
+	 */
 	public Line getLine() {
 		return line;
 	}
 	
+	/**
+	 * This is the default constructor of Basic Tower
+	 */
+	
     BasicTower(){
         super("Basic Tower", new Image("basicTower.png"));
     }
-
+    
+    /**
+     * This is the conversion constructor of Basic Tower which accept a string 
+     * @param name name of tower
+     */
     BasicTower(String name){
     	super(name);
     }
     
+    /**
+     * This is the conversion constructor of Basic Tower which can set the coordinate of the Basic Tower
+     * @param x x coordinate 
+     * @param y y coordinate
+     */
     BasicTower(int x, int y){
         super("Basic Tower", new Image("basicTower.png"), 0, 65, 10, 10, 1, x, y);
     }
-
+    
+    /**
+     * This is the upgrade function of Basic Tower. After each update the attack power will increase by one
+     */
     @Override
     public void upgrade() {
     	setAttack(getAttack()+1);
     }
     
+    /**
+     * This is the attack function of Basic Tower. It will attack once each frame. 
+     * It will choose the monsters that are closer to the ending within the shooting range [0,65]
+     * When there is more than one of the candidates that meet the above requirement 
+     * It will choose the monster who arrive first in the grid.
+     * @param monsters ArrayList of existing Monster 
+     * @param paneArena (game interface)
+     * @return ArrayList of attacked Monster(s) by the Basic Tower
+     */
     @Override
     public ArrayList<Monster> attack(ArrayList<Monster> monsters, AnchorPane paneArena) {
     	ArrayList<Monster> attacked = new ArrayList<Monster>();
@@ -108,7 +146,10 @@ public class BasicTower extends Tower {
     	return attacked;
     	  	    	
     }
-    
+    /***
+     * This is the function is used when game over. It removes the GUI element created by the tower
+     * @param paneArena (game interface)
+     */
     @Override
     public void isgameover(AnchorPane paneArena) {
     	if (line != null) paneArena.getChildren().remove(line);
