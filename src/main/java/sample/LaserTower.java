@@ -10,45 +10,87 @@ import javafx.geometry.Point2D;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-
+/***
+ * This is the Laser Tower Class. It consumes some resources to attack a monster.
+ * It will shoot laser directly of monster in range of [0,65]
+ * The laser will shoot from the tower to the target monster to the edge of the Arena
+ * All monsters on the line or within 3px away from the laser will receive damage.
+ * It consumes some resources to attack a monster. 
+ * @author tszmoonhung
+ *
+ */
 public class LaserTower extends Tower {
 	private Line line;
 	private Line line2;
+//	private Line line3;
 	private double required_resources = 10;
-	
+	/***
+	 * This is the setter function of shooting line from tower to monster created by the Laser Tower when performing attack
+	 * @param l shooting line from tower to monster
+	 */
 	public void setLine1(Line l) {
 		line = l;
 	}
-	
+	/***
+	 * This is the setter function of shooting line from monster to edge created by the Laser Tower when performing attack
+	 * @param l2 shooting line from monster to edge
+	 */
 	public void setLine2(Line l2) {
 		line2 = l2;
 	}
-	
+	/**
+	 * This is the getter function of shooting line from tower to monster created by the Laser Tower
+	 * @return shooting line from tower to monster
+	 */
 	public Line getLine() {
 		return line;
 	}
 	
+	/**
+	 * This is the getter function of shooting line from monster to edge created by the Laser Tower
+	 * @return shooting line from monster to edge
+	 */
 	public Line getLine2() {
 		return line2;
 	}
 	
+	/**
+	 * This is the getter function of the required resource to shoot laser each time
+	 * @return required resource to shoot laser each time
+	 */
 	public double getRequired_resources() {
 		return required_resources;
 	}
 	
+	/**
+	 * This is the default constructor of Laser Tower
+	 */
     LaserTower(){
         super("Laser Tower", new Image("laserTower.png"));
     }
 
+    /**
+     * This is the conversion constructor of Laser Tower. You can set the coordinate of the tower in this constructor.
+     * @param x x coordinate
+     * @param y y coordinate
+     */
     LaserTower(int x, int y){
         super("Laser Tower", new Image("laserTower.png"), 0, 65, 25, 50, 3, x, y);
     }
-
+    
+	/**
+	 * This is the upgrade function of Laser Tower
+	 * It will increase the Attack power by 1
+	 */
     @Override
     public void upgrade() {
     	setAttack(getAttack()+1);    
     }
     
+    /**
+     * This return the cost of shooting laser each time
+     * @return cost of shooting laser each time
+     */
     public double getCost() {
     	return required_resources;
     }
@@ -109,7 +151,18 @@ public class LaserTower extends Tower {
     	}
     	return line;
     }
-    
+    /***
+     * This is the attack function of Laser Tower
+     * It will first choose a target monster
+     * It will choose the monsters that are closer to the ending within the shooting range [0,65]
+     * When there is more than one of the candidates that meet the above requirement 
+     * It will choose the monster who arrive first in the grid.
+     * Then, the laser will shoot from the tower to the target monster to the edge of the Arena
+     * All monsters on the line or within 3px away from the laser will receive damage.
+     * @param monsters ArrayList of existing Monster 
+     * @param paneArena (game interface)
+     * @return ArrayList of attacked Monster(s) by the Laser Tower
+     */
     @Override
     public ArrayList<Monster> attack(ArrayList<Monster> monsters, AnchorPane paneArena){
     	ArrayList<Monster> attacked = new ArrayList<Monster>();
@@ -117,6 +170,8 @@ public class LaserTower extends Tower {
     	if (line != null && line2 != null) {
     		paneArena.getChildren().remove(line);
     		paneArena.getChildren().remove(line2);
+//    		paneArena.getChildren().remove(line3);
+
     	}
     	
     	ArrayList<Double> distance = new ArrayList<Double>();
@@ -185,9 +240,11 @@ public class LaserTower extends Tower {
 
     	this.line = new_line;
     	this.line2 = border;
+//    	this.line3 = fullline;
     	
     	paneArena.getChildren().addAll(line);
     	paneArena.getChildren().addAll(line2);
+//    	paneArena.getChildren().addAll(line3);
 
     	
 		ArrayList<Monster> hurt_mon = new ArrayList<Monster>();
@@ -199,6 +256,7 @@ public class LaserTower extends Tower {
 			Point2D cur = new Point2D(p.get(0),p.get(1));
 			if (fullline.contains(p.get(0), p.get(1))) {
 //				System.out.println(monsters.get(i).getName() + " is attacked by laser");
+//				System.out.println("x: " + monsters.get(i).getX() + " y:" + monsters.get(i).getY());
 				if (!hurt_mon.contains(monsters.get(i))) 
 					hurt_mon.add(monsters.get(i));
 			}
@@ -216,7 +274,10 @@ public class LaserTower extends Tower {
 		return hurt_mon;
     	
     }
-    
+    /**
+     * This return a string that describe the information of Laser Tower
+     * @return a string that describe the information of Laser Tower
+     */
     @Override
     public String getInfo(){
         return "Name: " + getName() + "\n"
@@ -227,6 +288,10 @@ public class LaserTower extends Tower {
                 + "Money required for laser shoot: " + required_resources;
     }
     
+    /***
+     * This is the function is used when game over. It removes the GUI element created by the tower
+     * @param paneArena (game interface)
+     */
     @Override
     public void isgameover(AnchorPane paneArena) {
     	if (line != null && line2 != null) {
