@@ -7,52 +7,107 @@ import java.util.Map.Entry;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
-
+/***
+ * This is the Ice Tower Class.
+ * It will have the shooting range of [0,65] 
+ * It will make monster move slower for a period of time 
+ * When a monster is attacked by Ice Tower. It will receive 1 HP deduction.
+ * @author tszmoonhung
+ *
+ */
 public class IceTower extends Tower {
 	
 	
 	// HashMap<Monster, HashMap<RemainingFrame, OriginalSpeed>>
-	HashMap<Monster, ArrayList<Integer>> slowdown = new HashMap<Monster, ArrayList<Integer>>();
+	private HashMap<Monster, ArrayList<Integer>> slowdown = new HashMap<Monster, ArrayList<Integer>>();
 	private Line line;
 
 	
-	int slowdown_period = 3;
-	int slowdown_speed = 1;
+	private int slowdown_period = 3;
+	private int slowdown_speed = 1;
 	
+	/***
+	 * This is the getter function. It will return the shooting line created by the Ice Tower
+	 * @return shooting line created by the Ice Tower
+	 */
 	public Line getLine() {
 		return line;
 	}
 	
+	/***
+	 * This is the setter function. It will set the shooting line of the Ice Tower.
+	 * @param l shooting line of the tower
+	 */
 	public void setLine(Line l) {
 		line = l;
 	}
 	
+	/***
+	 * This is the getter function. It will return the period that a monster will slow down.
+	 * @return the period that a monster will slow down
+	 */
 	public int getSlowdown_period() {
 		return slowdown_period ;
 	}
 	
+	/***
+	 * This is the getter function. It will return the speed that will be reduced by the Ice Tower 
+	 * when a monster is attacked by the tower.
+	 * @return the speed that will be reduced by the Ice Tower
+	 */
 	public int getSlowdown_speed() {
 		return slowdown_speed;
 	}
 	
+	
+	/***
+	 * This is the getter function. It will return the remaining slow down period of each of the monsters
+	 * of the attacked monsters by the tower.
+	 * @return HashMap of attacked monster as key and the respective remaining slow down period as value
+	 */
 	public HashMap<Monster, ArrayList<Integer>> getSlowdown(){
 		return slowdown;
 	}
 	
-	
+	/**
+	 * The default constructor of Ice Tower
+	 */
     IceTower(){
         super("Ice Tower", new Image("iceTower.png"));
     }
-
+    
+    /***
+     * This is the conversion constructor of Ice Tower which can set the coordinate of the Ice Tower
+     * @param x x coordinate
+     * @param y y coordinate
+     */
     IceTower(int x, int y){
         super("Ice Tower", new Image("iceTower.png"), 0, 65, 15, 30, 1, x, y);
     }
 
+    /**
+     * This is the upgrade function of Ice Tower.
+     * It increases the duration of the monster being slowed.
+     */
     @Override
     public void upgrade() {
     	slowdown_period += 1;
     }
     
+    /***
+     * This is the attack function of Ice Tower.
+     * Only one monster will attack each time.
+     * It will choose the monsters that are closer to the ending within the shooting range [0,65]
+     * When there is more than one of the candidates that meet the above requirement 
+     * It will choose the monster who arrive first in the grid.
+     * Then, it will slow down monster and add it to the HashMap that store the remaining penalty time
+     * It is possible that the same monster attacked more that once by the tower 
+     * It will increase the penalty time and further decreases it speed until it reach 0 speed
+     * When, the penalty time ends, the monster(s) will restore to the speed that they have before being attacked by the Ice Tower
+     * @param monsters ArrayList of existing Monster 
+     * @param paneArena (game interface)
+     * @return ArrayList of attacked Monster(s) by the Ice Tower
+     */
     @Override
     public ArrayList<Monster> attack(ArrayList<Monster> monsters, AnchorPane paneArena) {
     	ArrayList<Monster> attacked = new ArrayList<Monster>();
@@ -159,6 +214,10 @@ public class IceTower extends Tower {
     	return attacked;
     }
     
+    /***
+     * This return a string that describe the information of Ice Tower
+     * @return a string that describe the information of Ice Tower
+     */
     @Override
     public String getInfo(){
         return "Name: " + getName() + "\n"
@@ -169,6 +228,10 @@ public class IceTower extends Tower {
                 + "Freeze Time: " + slowdown_period;
     }
     
+    /**
+     * This is the function is used when game over. It removes the GUI element created by the tower
+     * @param paneArena (game interface)
+     */
     @Override
     public void isgameover(AnchorPane paneArena) {
     	if (line != null) paneArena.getChildren().remove(line);

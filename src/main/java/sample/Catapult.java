@@ -10,7 +10,14 @@ import javafx.scene.shape.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-
+/***
+ * This is the Catapult Class
+ * It throws a stone (attacks) to a coordinate less than 150 px but more than 50 px away from the center of the Catapult.
+ * All monsters placed at the radius of 25px of where the stone drop receive damage.
+ * After a stone is thrown, the Catapult take some times to reload the stone (cold down). During that period of time the Catapult will not be able to throw a stone again.
+ * @author tszmoonhung
+ *
+ */
 public class Catapult extends Tower {
 	
 	private int restore_time = 0;
@@ -18,35 +25,74 @@ public class Catapult extends Tower {
 	private Circle circle_b4;
 	private Circle circle_surrounding;
 	
+	/**
+	 * This is the getter function. It returns the remaining cool down time of Catapult after throwing a stone
+	 * @return remaining cooling time of the tower
+	 */
 	public int getRestore_time() {
 		return restore_time;
 	}
 	
+	/***
+	 * This is the getter function. It returns the time that need to be cool down after throwing a stone.
+	 * @return resting time of tower 
+	 */
 	public int getRest_time() {
 		return rest_time;
 	}
 	
+	/***
+	 * This is the getter function. It returns the stone created by the tower when shooting.
+	 * @return stone throws by the tower
+	 */
 	public Circle getCicle_b4() {
 		return circle_b4;
 	}
 	
+	/***
+	 * This is the getter function. It returns the affected area created by the tower
+	 * @return affected area by the stone
+	 */
 	public Circle circle_surrounding() {
 		return circle_surrounding;
 	}
-	
+	/***
+	 * This is the default constructor of Catapult.
+	 */
     Catapult(){
         super("Catapult", new Image("catapult.png"));
     }
-
+    
+    /***
+     * This is the conversion constructor of Laser Tower. You can set the coordinate of the tower in this constructor.
+     * @param x x coordinate
+     * @param y y coordinate
+     */
     Catapult(int x, int y){
         super("Catapult", new Image("catapult.png"), 50, 150, 20, 40, 2, x, y);
     }
-
+    
+    /***
+     * This the upgrade function of catapult. 
+     * This will decrease the cooling time by 1
+     */
     @Override
     public void upgrade() {
     	rest_time = Math.max(0, rest_time-1);
     }
     
+    /***
+     * This is the attack function of Catapult
+     * The size of the stone is a circle with 25px radius
+     * It will choose the monsters that are closer to the ending within the shooting range (50,150)
+     * When there is more than one of the candidates that meet the above requirement 
+     * It will choose the monster who arrive first in the grid.
+     * It will then throw a stone to the chosen monster
+     * All monsters placed at the radius of 25px of where the stone drop receive damage.
+     * @param monsters ArrayList of existing Monster 
+     * @param paneArena (game interface)
+     * @return ArrayList of attacked Monster(s) by the Catapult
+     */
     @Override
     public ArrayList<Monster> attack(ArrayList<Monster> monsters, AnchorPane paneArena) {
     	ArrayList<Monster> attacked = new ArrayList<Monster>();
@@ -137,7 +183,10 @@ public class Catapult extends Tower {
     	}
     	
     }
-    
+	/***
+	 * This return a string that describe the information of Catapult
+	 * @return a string that describe the information of Catapult
+	 */
     @Override
     public String getInfo(){
         return "Name: " + getName() + "\n"
@@ -150,7 +199,10 @@ public class Catapult extends Tower {
                 
         
     }
-    
+    /***
+     * This is the function is used when game over. It removes the GUI element created by the tower
+     * @param paneArena (game interface)
+     */
     @Override
     public void isgameover(AnchorPane paneArena) {
 		if (this.circle_b4 != null && this.circle_surrounding!= null) {
