@@ -188,6 +188,13 @@ public class Arena {
 //	        	Monster t = monsters.get(0);
 //	        	System.out.println(t.getX()+ " " + t.getY());
 //	        }
+//	    	for (int j = 0  ; j < 12 ; j++) {
+//	    		for (int i = 0 ; i < 12 ; i++) {
+//	    			if (sequence[j][i] != null)
+//	    				System.out.println(sequence[j][i].getName() + " :" + i+"," +j);
+//	    		}
+//	    	}
+//	    	for (int i = 0 ; i < monsters.size() ; i ++) System.out.println(monsters.get(i).getName() + " :" + monsters.get(i).getX()+"," +monsters.get(i).getY());
 	    	if (!Gameover()) {
 		    	for (int i = 0 ; i < towers.size() ; i ++) {
 		    		ArrayList<Monster> attacked;
@@ -204,6 +211,7 @@ public class Arena {
 		    		for (Monster m : attacked) {
 		    			System.out.println(String.format("<%s>@(<%d>.<%d>) -> <%s>@(<%d>, <%d>)", towers.get(i).getName(), towers.get(i).getX(), towers.get(i).getY(), m.getName(), m.getX(), m.getY()));
 		    		}
+//		    		System.out.println();
 		    	}
 
 		    	for(int i=0;i<monsters.size();i++) {
@@ -311,6 +319,7 @@ public class Arena {
 
                             destroyButton.setOnMouseClicked((event3) -> {
                                 target.setText("");
+                                tower.isgameover(paneArena);
                                 ((Label)event.getGestureTarget()).setGraphic(null);
                                 if(towers.remove(tower)){
                                     System.out.println("Tower removed successfully");
