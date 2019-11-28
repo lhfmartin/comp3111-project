@@ -49,7 +49,7 @@ public class Arena {
     @FXML
     private Label labelMoney;
 
-    private int frame=0;
+    public int frame=0;
 
     private static final int ARENA_WIDTH = 480;
     private static final int ARENA_HEIGHT = 480;
@@ -422,7 +422,10 @@ public class Arena {
         return towerFactory.createTower(label, x, y);
     }
 
-
+    /**
+     * This is the function that create different Monsters
+     * @return monster newly created monster
+     */
     public Monster createMonster() {
 
     	Monster monster =null;
@@ -442,7 +445,11 @@ public class Arena {
     	System.out.println("<" + monster.getName() + ">:<" + monster.getHP() + "> generated");
     	return monster;
     }
-
+    /**
+     * This is the function that move the monster
+     * Monster will move toward the end-zone according their speed. 
+     * If the monster is a Penguin, it will replenish its HP
+     */
     public void moveMonster(){
     	sequence = new Monster[MAX_V_NUM_GRID][MAX_H_NUM_GRID];
     	for(int i=0;i<monsters.size();i++) {
@@ -517,21 +524,32 @@ public class Arena {
         	}
     	}
     }
-
+    /**
+     * This is the function that create monster icon
+     * @param a monster that need to create icon
+     */
     public void createMonsterIcon(Monster a ) {
         ImageView imageView = new ImageView(a.getImage());
         imageView.setFitWidth(GRID_WIDTH * 0.9);
         imageView.setFitHeight(GRID_HEIGHT * 0.9);
         grids[a.getY()][a.getX()].setGraphic(imageView);
     }
-
+    /**
+     * This is the function that create collision icon when the monster is dead
+     * @param a monster that need to collision icon
+     */
     public void createCollisionIcon(Monster a ) {
         ImageView imageView = new ImageView("collision.png");
         imageView.setFitWidth(GRID_WIDTH * 0.9);
         imageView.setFitHeight(GRID_HEIGHT * 0.9);
         grids[a.getY()][a.getX()].setGraphic(imageView);
     }
-
+    /**
+     * This is the function that check whether the game is over
+     * If there is a monster that successfully reached the end-zone
+     * A single line Gameover will be printed to console. 
+     * @return true if the game is over, otherwise false
+     */
     public boolean Gameover() {
     	for(int i=0;i<monsters.size();i++) {
         	Monster a = monsters.get(i);
