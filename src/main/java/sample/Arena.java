@@ -21,6 +21,13 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * This is the Arena class for user to play the game
+ * @author hoyammong
+ * @author tszmoonhung
+ * @author lhfmartin
+ */
 public class Arena {
     @FXML
     private Button buttonNextFrame;
@@ -81,23 +88,43 @@ public class Arena {
     public void setMonsters(ArrayList<Monster> m) {
     	monsters = m; 
     }
-    
+
+    /**
+     * Function that set the tower Arraylist
+     * @param t ArrayList of Tower
+     */
     public void setTower (ArrayList<Tower> t) {
     	towers = t;
     }
-    
+
+    /**
+     * Function that get the grids
+     * @return Array of Array of Label
+     */
+    public Label[][]  getGrids() {
+        return grids;
+    }
+
+    /**
+     * A function to set the paneArena to an AnchorPane
+     * @param p An AnchorPane object
+     */
     public void setPaneArena (AnchorPane p) {
     	paneArena = p;
     }
-    
-    public Label[][]  getGrids() {
-    	return grids;
-    }
-    
+
+    /**
+     * Getter function to get the current paneArena
+     * @return paneArena of type AnchorPane
+     */
     public AnchorPane getPane() {
     	return paneArena;
     }
-    
+
+    /**
+     * Getter function to get the list of towers currently in the arena
+     * @return An ArrayList of Tower
+     */
     public ArrayList<Tower> getTower(){
     	return towers;
     }
@@ -115,7 +142,11 @@ public class Arena {
     public Monster[][] getSequence(){
     	return sequence;
     }
-    
+
+    /**
+     * Getter function to get the current money left
+     * @return money
+     */
     public double getMoney() {
     	return money;
     }
@@ -429,11 +460,11 @@ public class Arena {
         labelMoney.setText("Money: " + money);
     }
 
-    public Tower createTower(String label){
+    private Tower createTower(String label){
         return towerFactory.createTower(label);
     }
 
-    public Tower createTower(String label, int x, int y){
+    private Tower createTower(String label, int x, int y){
         return towerFactory.createTower(label, x, y);
     }
 
