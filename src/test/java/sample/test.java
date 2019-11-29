@@ -39,9 +39,15 @@ public class test extends ApplicationTest {
 	
 	
 	@Test
+	public void testNextFrameButton() {
+		Assert.assertEquals(appController.frame, 0);
+		clickOn("#buttonNextFrame");
+		Assert.assertEquals(appController.frame, 1);
+	}
+	
+	@Test
 	public void testMonster() throws InterruptedException {
 		interact(()->{
-			appController.createArena();
 			Monster temp = appController.createMonster();
 			temp.setSpeed(3);		
 			appController.moveMonster();
