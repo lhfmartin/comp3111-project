@@ -48,8 +48,10 @@ public class Arena {
 
     @FXML
     private Label labelMoney;
-
-    private int frame=0;
+    /**
+     * A variable that count the frame
+     */
+    public int frame=0;
 
     private static final int ARENA_WIDTH = 480;
     private static final int ARENA_HEIGHT = 480;
@@ -65,10 +67,17 @@ public class Arena {
     private ArrayList<Monster> monsters = new ArrayList<Monster>();
     static Monster sequence[][];
     
+    /**
+     * Function that set the monster sequence
+     * @param s monster sequence[][]
+     */
     public void setSequence(Monster [][] s) {
     	sequence = s;
     }
-    
+    /**
+     * Function that set the monster Arraylist
+     * @param m monster arraylist
+     */
     public void setMonsters(ArrayList<Monster> m) {
     	monsters = m; 
     }
@@ -92,11 +101,17 @@ public class Arena {
     public ArrayList<Tower> getTower(){
     	return towers;
     }
-    
+    /**
+     * A function that return monster arraylist
+     * @return monster arraylist
+     */
     public ArrayList<Monster> getMonsters(){
     	return monsters;
     }
-    
+    /**
+     * A function that return monster sequence
+     * @return monster sequence
+     */
     public Monster[][] getSequence(){
     	return sequence;
     }
@@ -181,7 +196,7 @@ public class Arena {
 	    	if(frame%2==0) {
 	    		for(int i =0; i<frame/10+1;i++) {
 		    			Monster m = createMonster();
-		    			if (i == 0) sequence[m.getY()][m.getX()] = m;
+		    			if (i == 0 && sequence[m.getY()][m.getX()] == null) sequence[m.getY()][m.getX()] = m;
 	    		}
 	    	}
 //	        if(monsters.size()>1) {
@@ -422,7 +437,10 @@ public class Arena {
         return towerFactory.createTower(label, x, y);
     }
 
-
+    /**
+     * This is the function that create different Monsters
+     * @return monster newly created monster
+     */
     public Monster createMonster() {
 
     	Monster monster =null;
@@ -442,7 +460,11 @@ public class Arena {
     	System.out.println("<" + monster.getName() + ">:<" + monster.getHP() + "> generated");
     	return monster;
     }
-
+    /**
+     * This is the function that move the monster
+     * Monster will move toward the end-zone according their speed. 
+     * If the monster is a Penguin, it will replenish its HP
+     */
     public void moveMonster(){
     	sequence = new Monster[MAX_V_NUM_GRID][MAX_H_NUM_GRID];
     	for(int i=0;i<monsters.size();i++) {
@@ -517,21 +539,32 @@ public class Arena {
         	}
     	}
     }
-
+    /**
+     * This is the function that create monster icon
+     * @param a monster that need to create icon
+     */
     public void createMonsterIcon(Monster a ) {
         ImageView imageView = new ImageView(a.getImage());
         imageView.setFitWidth(GRID_WIDTH * 0.9);
         imageView.setFitHeight(GRID_HEIGHT * 0.9);
         grids[a.getY()][a.getX()].setGraphic(imageView);
     }
-
+    /**
+     * This is the function that create collision icon when the monster is dead
+     * @param a monster that need to collision icon
+     */
     public void createCollisionIcon(Monster a ) {
         ImageView imageView = new ImageView("collision.png");
         imageView.setFitWidth(GRID_WIDTH * 0.9);
         imageView.setFitHeight(GRID_HEIGHT * 0.9);
         grids[a.getY()][a.getX()].setGraphic(imageView);
     }
-
+    /**
+     * This is the function that check whether the game is over
+     * If there is a monster that successfully reached the end-zone
+     * A single line Gameover will be printed to console. 
+     * @return true if the game is over, otherwise false
+     */
     public boolean Gameover() {
     	for(int i=0;i<monsters.size();i++) {
         	Monster a = monsters.get(i);
