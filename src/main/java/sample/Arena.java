@@ -181,7 +181,7 @@ public class Arena {
 	    	if(frame%2==0) {
 	    		for(int i =0; i<frame/10+1;i++) {
 		    			Monster m = createMonster();
-		    			if (i == 0) sequence[m.getY()][m.getX()] = m;
+		    			if (i == 0 && sequence[m.getY()][m.getX()] == null) sequence[m.getY()][m.getX()] = m;
 	    		}
 	    	}
 //	        if(monsters.size()>1) {
