@@ -79,4 +79,14 @@ public class ArenaTest extends ApplicationTest {
         robot.moveBy(-10, 50).clickOn();
         Assert.assertEquals(towersLength, a.getTower().size());
     }
+
+    @Test
+    public void testUpgradeTowerButton(){
+        Tower bTower = new BasicTower(0, 0);
+        bTower.upgrade();
+        robot.drag("#labelBasicTower").dropTo(paneArena.getChildren().get(1));
+        robot.clickOn(paneArena.getChildren().get(1));
+        robot.moveBy(10, 50).clickOn();
+        Assert.assertEquals(bTower.getAttack(), a.getTower().get(a.getTower().size() - 1).getAttack(), 0.00000001);
+    }
 }
