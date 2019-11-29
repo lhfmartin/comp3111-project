@@ -48,7 +48,9 @@ public class Arena {
 
     @FXML
     private Label labelMoney;
-
+    /**
+     * A variable that count the frame
+     */
     public int frame=0;
 
     private static final int ARENA_WIDTH = 480;
@@ -65,10 +67,17 @@ public class Arena {
     private ArrayList<Monster> monsters = new ArrayList<Monster>();
     static Monster sequence[][];
     
+    /**
+     * Function that set the monster sequence
+     * @param s monster sequence[][]
+     */
     public void setSequence(Monster [][] s) {
     	sequence = s;
     }
-    
+    /**
+     * Function that set the monster Arraylist
+     * @param m monster arraylist
+     */
     public void setMonsters(ArrayList<Monster> m) {
     	monsters = m; 
     }
@@ -92,11 +101,17 @@ public class Arena {
     public ArrayList<Tower> getTower(){
     	return towers;
     }
-    
+    /**
+     * A function that return monster arraylist
+     * @return monster arraylist
+     */
     public ArrayList<Monster> getMonsters(){
     	return monsters;
     }
-    
+    /**
+     * A function that return monster sequence
+     * @return monster sequence
+     */
     public Monster[][] getSequence(){
     	return sequence;
     }
