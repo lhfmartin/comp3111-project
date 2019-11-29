@@ -5,11 +5,10 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import javafx.scene.shape.*;
-
-
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 /***
  * This is the Catapult Class
  * It throws a stone (attacks) to a coordinate less than 150 px but more than 50 px away from the center of the Catapult.
@@ -24,6 +23,7 @@ public class Catapult extends Tower {
 	private int rest_time = 5;
 	private Circle circle_b4;
 	private Circle circle_surrounding;
+	private Text text;
 	
 	/**
 	 * This is the getter function. It returns the remaining cool down time of Catapult after throwing a stone
@@ -99,6 +99,8 @@ public class Catapult extends Tower {
 		if (this.circle_b4 != null && this.circle_surrounding!= null) {
 			paneArena.getChildren().remove(circle_b4);
 			paneArena.getChildren().remove(circle_surrounding);
+			paneArena.getChildren().remove(text);
+
 		}
 
     	if (restore_time == 0) {
@@ -154,6 +156,12 @@ public class Catapult extends Tower {
 		    circle.setStyle("-fx-stroke: red;");
 		    circle.setFill(Color.CHOCOLATE);
 		    circle_b4 = circle;
+		    Text t = new Text("Rock");
+		    t.setX(pixel_of_rock.get(0));
+		    t.setY(pixel_of_rock.get(1));
+		    t.setX(t.getX() - t.getLayoutBounds().getWidth() / 2);
+		    t.setY(t.getY() + t.getLayoutBounds().getHeight() / 4);
+		    text = t;
 		    
 			Circle circle2 = new Circle();
 			circle2.setCenterX(pixel_of_rock.get(0));
@@ -163,6 +171,7 @@ public class Catapult extends Tower {
 		    circle2.setFill(Color.TRANSPARENT);
 		    circle_surrounding = circle2;
 			paneArena.getChildren().addAll(circle);
+			paneArena.getChildren().addAll(t);
 			paneArena.getChildren().addAll(circle2);
 			
 			for (int j = 0 ; j < monsters.size() ; j++) {
@@ -208,6 +217,7 @@ public class Catapult extends Tower {
 		if (this.circle_b4 != null && this.circle_surrounding!= null) {
 			paneArena.getChildren().remove(circle_b4);
 			paneArena.getChildren().remove(circle_surrounding);
+			paneArena.getChildren().remove(text);
 		}
     }
     
