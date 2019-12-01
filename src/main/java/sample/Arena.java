@@ -62,7 +62,13 @@ public class Arena {
 
     private static final int ARENA_WIDTH = 480;
     private static final int ARENA_HEIGHT = 480;
+    /**
+     * The width of a grid
+     */
     public static final int GRID_WIDTH = 40;
+    /**
+     * The height of a grid
+     */
     public static final int GRID_HEIGHT = 40;
     private static final int MAX_H_NUM_GRID = 12;
     private static final int MAX_V_NUM_GRID = 12;
