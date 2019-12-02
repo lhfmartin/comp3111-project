@@ -27,7 +27,7 @@ public class IceTower extends Tower {
 	private int slowdown_speed = 1;
 	
 	/***
-	 * This is the getter function. It will return the shooting line created by the Ice Tower
+	 * This is the getter function.It will return the shooting line created by the Ice Tower
 	 * @return shooting line created by the Ice Tower
 	 */
 	public Line getLine() {
@@ -35,7 +35,7 @@ public class IceTower extends Tower {
 	}
 	
 	/***
-	 * This is the setter function. It will set the shooting line of the Ice Tower.
+	 * This is the setter function.It will set the shooting line of the Ice Tower.
 	 * @param l shooting line of the tower
 	 */
 	public void setLine(Line l) {
@@ -43,7 +43,7 @@ public class IceTower extends Tower {
 	}
 	
 	/***
-	 * This is the getter function. It will return the period that a monster will slow down.
+	 * This is the getter function.It will return the period that a monster will slow down.
 	 * @return the period that a monster will slow down
 	 */
 	public int getSlowdown_period() {
@@ -51,7 +51,7 @@ public class IceTower extends Tower {
 	}
 	
 	/***
-	 * This is the getter function. It will return the speed that will be reduced by the Ice Tower 
+	 * This is the getter function.It will return the speed that will be reduced by the Ice Tower 
 	 * when a monster is attacked by the tower.
 	 * @return the speed that will be reduced by the Ice Tower
 	 */
@@ -61,8 +61,7 @@ public class IceTower extends Tower {
 	
 	
 	/***
-	 * This is the getter function. It will return the remaining slow down period of each of the monsters
-	 * of the attacked monsters by the tower.
+	 * This is the getter function.It will return the remaining slow down period of each of the monsters of the attacked monsters by the tower.
 	 * @return HashMap of attacked monster as key and the respective remaining slow down period as value
 	 */
 	public HashMap<Monster, ArrayList<Integer>> getSlowdown(){
@@ -86,8 +85,7 @@ public class IceTower extends Tower {
     }
 
     /**
-     * This is the upgrade function of Ice Tower.
-     * It increases the duration of the monster being slowed.
+     * This is the upgrade function of Ice Tower. It increases the duration of the monster being slowed.
      */
     @Override
     public void upgrade() {
@@ -211,6 +209,7 @@ public class IceTower extends Tower {
 	    	attacked.add(prey);
     	}
     	
+//    	System.out.println(slowdown);
     	return attacked;
     }
     
@@ -229,7 +228,7 @@ public class IceTower extends Tower {
     }
     
     /**
-     * This is the function is used when game over. It removes the GUI element created by the tower
+     * This is the function is used when game over.It removes the GUI element created by the tower
      * @param paneArena (game interface)
      */
     @Override
