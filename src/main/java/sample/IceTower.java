@@ -209,7 +209,7 @@ public class IceTower extends Tower {
 	    	attacked.add(prey);
     	}
     	
-    	System.out.println(slowdown);
+//    	System.out.println(slowdown);
     	return attacked;
     }
     
