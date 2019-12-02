@@ -20,6 +20,7 @@ public class Main extends Application {
 	
 	/***
 	 * This is the main entry point of the program
+	 * @exception Exception on the FXMLLoader error
 	 */
     @Override
     public void start(Stage primaryStage) throws Exception{
