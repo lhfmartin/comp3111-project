@@ -28,7 +28,7 @@ public class BasicTower extends Tower {
 	
 	/***
 	 * This is the getter function of shooting line
-	 * @return line
+	 * @return shooting line
 	 */
 	public Line getLine() {
 		return line;
