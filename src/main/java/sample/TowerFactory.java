@@ -46,4 +46,11 @@ public class TowerFactory {
                 return null;
         }
     }
+
+    /**
+     * The default constructor of the TowerFactory class
+     */
+    public TowerFactory(){
+
+    }
 }

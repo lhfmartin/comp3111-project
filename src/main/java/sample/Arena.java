@@ -79,6 +79,11 @@ public class Arena {
     private ArrayList<Tower> towers = new ArrayList<Tower>();
     private ArrayList<Monster> monsters = new ArrayList<Monster>();
     static Monster sequence[][];
+
+    /**
+     * The default constructor of the Arena class
+     */
+    public Arena(){}
     
     /**
      * Function that set the monster sequence
