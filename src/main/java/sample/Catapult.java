@@ -26,7 +26,7 @@ public class Catapult extends Tower {
 	private Text text;
 	
 	/**
-	 * This is the getter function. It returns the remaining cool down time of Catapult after throwing a stone
+	 * This is the getter function.It returns the remaining cool down time of Catapult after throwing a stone
 	 * @return remaining cooling time of the tower
 	 */
 	public int getRestore_time() {
@@ -34,7 +34,7 @@ public class Catapult extends Tower {
 	}
 	
 	/***
-	 * This is the getter function. It returns the time that need to be cool down after throwing a stone.
+	 * This is the getter function.It returns the time that need to be cool down after throwing a stone.
 	 * @return resting time of tower 
 	 */
 	public int getRest_time() {
@@ -42,7 +42,7 @@ public class Catapult extends Tower {
 	}
 	
 	/***
-	 * This is the getter function. It returns the stone created by the tower when shooting.
+	 * This is the getter function.It returns the stone created by the tower when shooting.
 	 * @return stone throws by the tower
 	 */
 	public Circle getCicle_b4() {
@@ -50,7 +50,7 @@ public class Catapult extends Tower {
 	}
 	
 	/***
-	 * This is the getter function. It returns the affected area created by the tower
+	 * This is the getter function.It returns the affected area created by the tower
 	 * @return affected area by the stone
 	 */
 	public Circle circle_surrounding() {
@@ -209,7 +209,7 @@ public class Catapult extends Tower {
         
     }
     /***
-     * This is the function is used when game over. It removes the GUI element created by the tower
+     * This is the function is used when game over.It removes the GUI element created by the tower
      * @param paneArena (game interface)
      */
     @Override
